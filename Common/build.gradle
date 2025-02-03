@@ -1,0 +1,22 @@
+group = 'org'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+defaultTasks 'bootJar'
+
+bootJar {
+    archiveBaseName.set('my-app')
+    archiveVersion.set('1.0.0')
+    destinationDirectory = file("$projectDir/out")
+    mainClass = 'org.common.CommonApplication'
+}

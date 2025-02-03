@@ -1,0 +1,23 @@
+group = 'org'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation project(':Common')
+    implementation project(':AuthService')
+}
+
+defaultTasks 'bootJar'
+
+bootJar {
+    archiveBaseName.set('my-app')
+    archiveVersion.set('1.0.0')
+    destinationDirectory = file("$projectDir/out")
+    mainClass = 'org.posterservice.PosterServiceApplication'
+}

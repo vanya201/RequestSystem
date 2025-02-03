@@ -1,0 +1,5 @@
+rootProject.name = 'Poster'
+
+include ':Common'
+include ':AuthService'
+include ':PosterService'

@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  api_gateway:
+    build:
+      context: ApiGateway
+      dockerfile: Dockerfile
+    container_name: ${GATEWAY_SERVICE_NAME}
+    networks:
+      - internal-network
+      - output-network
+    ports:
+      - "${GATEWAY_PORT}:80"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/health" ]
+      interval: 40s
+      retries: 3
+      timeout: 10s
+      start_period: 10s
+    depends_on:
+      - auth_service
+      - db
+
+  common_service:
+    build:
+      context: Common
+      dockerfile: Dockerfile
+    container_name: ${COMMON_SERVICE_NAME}
+    environment:
+      - DB_HOST=${DB_SERVICE_NAME}
+      - DB_NAME=${DB_NAME}
+      - DB_MAIN_USER=${DB_MAIN_USER}
+      - DB_SECOND_USER=${DB_SECOND_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - JAVA_VERSION=${JAVA_VERSION}
+    networks:
+      - dbs-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  auth_service:
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
+    container_name: ${AUTH_SERVICE_NAME}
+    environment:
+      - APP_NAME=${AUTH_SERVICE_NAME}
+      - DB_HOST=${DB_SERVICE_NAME}
+      - DB_NAME=${DB_NAME}
+      - DB_MAIN_USER=${DB_MAIN_USER}
+      - DB_SECOND_USER=${DB_SECOND_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AUTH_JWT_SECRET_KEY=${AUTH_JWT_SECRET_KEY}
+      - AUTH_ADMIN_REGISTRATION_SECRET_KEY=${AUTH_ADMIN_REGISTRATION_SECRET_KEY}
+      - JAVA_VERSION=${JAVA_VERSION}
+    networks:
+      - dbs-network
+      - internal-network
+    depends_on:
+      - common_service
+
+  poster_service:
+    build:
+      context: ./PosterService
+      dockerfile: Dockerfile
+    container_name: ${POSTER_SERVICE_NAME}
+    environment:
+      - APP_NAME=${POSTER_SERVICE_NAME}
+      - DB_HOST=${DB_SERVICE_NAME}
+      - DB_NAME=${DB_NAME}
+      - DB_MAIN_USER=${DB_MAIN_USER}
+      - DB_SECOND_USER=${DB_SECOND_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AUTH_JWT_SECRET_KEY=${AUTH_JWT_SECRET_KEY}
+      - JAVA_VERSION=${JAVA_VERSION}
+    networks:
+      - dbs-network
+      - internal-network
+    depends_on:
+      - common_service
+
+  db:
+    image: postgres:latest
+    container_name: ${DB_SERVICE_NAME}
+    networks:
+      - dbs-network
+    environment:
+      POSTGRES_USER: ${DB_MAIN_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "${FORWARD_DB_PORT}:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_MAIN_USER}", "-d", "${DB_NAME}"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
+
+networks:
+  internal-network:
+    driver: bridge
+  output-network:
+    driver: bridge
+  dbs-network:
+    driver: bridge
+
+volumes:
+  pg_data:
+    driver: local
+  rabbitmq-data:
+    driver: local
