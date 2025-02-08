@@ -15,12 +15,6 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(20)
-        }
-    }
-
     bootRun {
         enabled = false
     }
