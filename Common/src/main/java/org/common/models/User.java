@@ -1,6 +1,7 @@
 package org.common.models;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.*;
@@ -43,7 +44,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
     @Builder.Default
+    @BatchSize(size = 20)
     private Set<User> friends = new LinkedHashSet<>();
+
+    public void setFriend(User user) {
+        getFriends().add(user);
+        user.getFriends().add(this);
+    }
 
     // For unit testing and possible future use with an alternative HashSet implementation, because possible proxy
     @Override

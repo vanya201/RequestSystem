@@ -59,3 +59,4 @@ CREATE TABLE IF NOT EXISTS posts (
                                     FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+CREATE EXTENSION pg_trgm;

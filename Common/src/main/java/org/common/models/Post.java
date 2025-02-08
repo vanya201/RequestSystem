@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "posts")
-@EqualsAndHashCode(exclude = "id")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
