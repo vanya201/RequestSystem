@@ -12,13 +12,14 @@ import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 import static org.common.models.FriendRequestStatus.*;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class FriendShipService {
     private final UserSearchService userSearchService;

@@ -3,12 +3,13 @@ package org.posterservice.services;
 import lombok.RequiredArgsConstructor;
 import org.common.models.FriendRequest;
 import org.common.models.User;
-import org.posterservice.repositorys.FriendRequestRepository;
-import org.springframework.stereotype.Component;
+import org.posterservice.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class FriendRequestService {
     private final FriendRequestRepository friendRequestRepository;

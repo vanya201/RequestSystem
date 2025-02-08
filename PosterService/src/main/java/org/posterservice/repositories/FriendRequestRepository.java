@@ -1,10 +1,11 @@
-package org.posterservice.repositorys;
+package org.posterservice.repositories;
 
 import org.common.models.FriendRequest;
 import org.common.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 

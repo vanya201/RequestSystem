@@ -25,7 +25,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue friendRequestQueue() {
-        return new Queue(FRIEND_REQUEST_QUEUE, true); // true - очередь будет сохраняться при перезапуске RabbitMQ
+        return new Queue(FRIEND_REQUEST_QUEUE, true);
     }
 
 
