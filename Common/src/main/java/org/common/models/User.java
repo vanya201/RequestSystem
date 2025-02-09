@@ -52,6 +52,12 @@ public class User {
         user.getFriends().add(this);
     }
 
+    public boolean removeFriend(User user) {
+        return this.getFriends().remove(user)
+                ||
+                user.getFriends().remove(this);
+    }
+
     // For unit testing and possible future use with an alternative HashSet implementation, because possible proxy
     @Override
     public final boolean equals(Object o) {

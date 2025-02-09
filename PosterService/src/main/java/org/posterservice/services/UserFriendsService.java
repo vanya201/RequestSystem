@@ -12,22 +12,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserSearchService {
+public class UserFriendsService {
     private final UserSearchRepository userSearchRepository;
-
-    public User searchUserByName(String username) throws UserNotFound{
-        return userSearchRepository.findByUsername(username)
-                .orElseThrow(UserNotFound::new);
-    }
+    private final SearchUsersService searchUsersService;
 
     public List<User> searchFriendsByUser(User user, Pageable page) {
         return userSearchRepository.findByFriendsContains(user, page).getContent();
     }
 
-    public List<User> searchUsersByName(String username, Pageable page) {
-        Page<User> users = userSearchRepository.findByUsernameLike(username, page);
-        return users.isEmpty() ?
-                userSearchRepository.findSimilarUsernames(username, page).getContent()
-                : users.getContent();
+    public void deleteFriend(User user, String friendName){
+        User friend = searchUsersService.searchUserByName(friendName);
+        user.removeFriend(friend);
+        userSearchRepository.save(friend);
+    }
+
+    public void addFriend(User user, User friend)  {
+        user.setFriend(friend);
+        userSearchRepository.save(friend);
     }
 }

@@ -7,7 +7,7 @@ import org.common.models.User;
 import org.posterservice.config.mapper.FriendShipMapper;
 import org.posterservice.services.FriendRequestService;
 import org.posterservice.services.FriendShipService;
-import org.posterservice.services.UserSearchService;
+import org.posterservice.services.UserFriendsService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,7 +25,7 @@ public class FriendShipController {
     private final FriendShipService friendShipService;
 
     private final FriendRequestService friendRequestService;
-    private final UserSearchService userSearchService;
+    private final UserFriendsService userFriendsService;
     private final FriendShipMapper friendShipMapper;
 
     @PostMapping("/request/{receiver}")
@@ -43,7 +43,7 @@ public class FriendShipController {
         try {
             friendShipService.acceptFriendRequest(accepter, sender);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, sender));
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
     }
@@ -63,11 +63,30 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
-            List<User> friends = userSearchService.searchFriendsByUser(user, PageRequest.of(page, siz));
+            List<User> friends = userFriendsService.searchFriendsByUser(user, PageRequest.of(page, siz));
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toUserDTOList(friends)));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
     }
+
+    @GetMapping("/requests")
+    public ResponseEntity<Response> requests(@AuthenticationPrincipal User user,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int siz) {
+        //TODO
+        return null;
+    }
+
+    @DeleteMapping("/delete/{friend}")
+    public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal User user, @PathVariable String friend ) {
+        try {
+            userFriendsService.deleteFriend(user, friend);
+            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, null));
+        } catch (Exception e) {
+            return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
+        }
+    }
+
 
 }

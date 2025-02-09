@@ -28,7 +28,7 @@ public class FriendRequestService {
         return friendRequestRepository.findAllByReceiver(receiver, pageable).getContent();
     }
 
-    public void saveFriendRequest(FriendRequest friendRequest) {
+    public void createFriendRequest(FriendRequest friendRequest) {
         friendRequestRepository.save(friendRequest);
     }
 }

@@ -2,7 +2,6 @@ package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.common.models.FriendRequest;
-import org.common.models.FriendRequestStatus;
 import org.common.models.User;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
@@ -10,23 +9,23 @@ import org.posterservice.event.FriendRequestEvent;
 import org.posterservice.exception.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 
 import static org.common.models.FriendRequestStatus.*;
 
 @Service
 @RequiredArgsConstructor
 public class FriendShipService {
-    private final UserSearchService userSearchService;
+    private final UserFriendsService userFriendService;
     private final FriendRequestService friendRequestService;
+    private final SearchUsersService searchUsersService;
+
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public void sendFriendRequest(User sender, String receiverName) {
-        User receiver = userSearchService.searchUserByName(receiverName);
+        User receiver = searchUsersService.searchUserByName(receiverName);
 
         if(sender.getFriends().contains(receiver))
             throw new AlreadyFriendsException();
@@ -47,13 +46,13 @@ public class FriendShipService {
                 throw new FriendRequestDeclinedException();
         }
 
-        friendRequestService.saveFriendRequest(FriendRequest.create(sender, receiver));
+        friendRequestService.createFriendRequest(FriendRequest.create(sender, receiver));
         eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
     }
 
     @Transactional
     public void acceptFriendRequest(User receiver, String senderName) {
-        User sender = userSearchService.searchUserByName(senderName);
+        User sender = searchUsersService.searchUserByName(senderName);
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 
@@ -63,15 +62,15 @@ public class FriendShipService {
             throw new FriendRequestDeclinedException();
 
         friendRequest.setStatus(ACCEPTED);
-        receiver.setFriend(sender);
+        userFriendService.addFriend(receiver, sender);
 
-        friendRequestService.saveFriendRequest(friendRequest);
+        friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(AcceptFriendRequestEvent.create(sender, receiver));
     }
 
     @Transactional
     public void declineFriendRequest(User receiver, String senderName) {
-        User sender = userSearchService.searchUserByName(senderName);
+        User sender = searchUsersService.searchUserByName(senderName);
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 
@@ -82,7 +81,7 @@ public class FriendShipService {
 
         friendRequest.setStatus(DECLINED);
 
-        friendRequestService.saveFriendRequest(friendRequest);
+        friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(DeclineFriendRequestEvent.create(sender, receiver));
     }
 }
