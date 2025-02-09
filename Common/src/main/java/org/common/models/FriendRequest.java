@@ -29,6 +29,8 @@ public class FriendRequest {
     @Builder.Default
     private FriendRequestStatus status = FriendRequestStatus.PENDING;
 
+    @Version
+    private Long version;
 
     static public FriendRequest create(User sender, User receiver) {
         return FriendRequest.builder()

@@ -2,9 +2,9 @@ package org.posterservice.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.posterservice.notify.FriendNotify;
-import org.posterservice.notify.dto.AcceptFriendRequestDTO;
-import org.posterservice.notify.dto.DeclineFriendRequestDTO;
-import org.posterservice.notify.dto.FriendRequestDTO;
+import org.posterservice.notify.dto.impl.AcceptFriendRequestDTO;
+import org.posterservice.notify.dto.impl.DeclineFriendRequestDTO;
+import org.posterservice.notify.dto.impl.FriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;
@@ -21,21 +21,21 @@ public class FriendRequestListener {
     @EventListener
     @Async
     public void friendRequestListen(FriendRequestEvent event) {
-        FriendRequestDTO friendRequestDTO = (FriendRequestDTO)event.getSource();
+        var friendRequestDTO = (FriendRequestDTO)event.getSource();
         friendNotifyRabbit.notify(friendRequestDTO);
     }
 
     @EventListener
     @Async
     public void acceptFriendRequestListen(AcceptFriendRequestEvent event) {
-        AcceptFriendRequestDTO acceptFriendRequestDTO = (AcceptFriendRequestDTO)event.getSource();
+        var acceptFriendRequestDTO = (AcceptFriendRequestDTO)event.getSource();
         friendNotifyRabbit.notify(acceptFriendRequestDTO);
     }
 
     @EventListener
     @Async
     public void declineFriendRequestListen(DeclineFriendRequestEvent event) {
-        DeclineFriendRequestDTO declineFriendRequestDTO = (DeclineFriendRequestDTO)event.getSource();
+        var declineFriendRequestDTO = (DeclineFriendRequestDTO)event.getSource();
         friendNotifyRabbit.notify(declineFriendRequestDTO);
     }
 }

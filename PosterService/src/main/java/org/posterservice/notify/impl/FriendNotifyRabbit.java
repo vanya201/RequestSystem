@@ -1,10 +1,11 @@
 package org.posterservice.notify.impl;
 import lombok.RequiredArgsConstructor;
 import org.posterservice.config.rabbit.RabbitMQConfig;
-import org.posterservice.notify.dto.AcceptFriendRequestDTO;
-import org.posterservice.notify.dto.DeclineFriendRequestDTO;
-import org.posterservice.notify.dto.FriendRequestDTO;
+import org.posterservice.notify.dto.impl.AcceptFriendRequestDTO;
+import org.posterservice.notify.dto.impl.DeclineFriendRequestDTO;
+import org.posterservice.notify.dto.impl.FriendRequestDTO;
 import org.posterservice.notify.FriendNotify;
+import org.posterservice.notify.dto.FriendRequestNotify;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,8 @@ public class FriendNotifyRabbit implements FriendNotify {
     );
 
     @Override
-    public void notify(Object friendRequest) {
-        String routingKey = routing.get(friendRequest.getClass().getSimpleName());
+    public void notify(FriendRequestNotify friendRequest) {
+        var routingKey = routing.get(friendRequest.getClass().getSimpleName());
         rabbitTemplate.convertAndSend(RabbitMQConfig.FRIEND_REQUEST_EXCHANGE, routingKey, friendRequest);
     }
 }

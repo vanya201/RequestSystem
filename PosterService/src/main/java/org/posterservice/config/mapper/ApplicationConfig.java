@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @ScanMainEntitys
 public class ApplicationConfig {
     @Bean
-    public FriendRequestMapper friendRequestMapper() {
-        return Mappers.getMapper(FriendRequestMapper.class);
+    public FriendShipMapper friendShipMapper() {
+        return Mappers.getMapper(FriendShipMapper.class);
     }
 }

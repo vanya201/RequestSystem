@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.common.models.FriendRequest;
 import org.common.models.FriendRequestStatus;
 import org.common.models.User;
-import org.posterservice.dto.http.AcceptFriendRequestDTO;
-import org.posterservice.dto.http.DeclineFriendRequestDTO;
-import org.posterservice.dto.http.FriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;
+import org.posterservice.exception.*;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
@@ -26,57 +24,64 @@ public class FriendShipService {
     private final FriendRequestService friendRequestService;
     private final ApplicationEventPublisher eventPublisher;
 
-    private Map<FriendRequestStatus, String> statusMessages = Map.of(
-            PENDING , "Friend Request Already Sent",
-            ACCEPTED, "Friend Request Already Accepted",
-            DECLINED, "Friend Request Was Declined"
-    );
-
     @Transactional
-    public void sendFriendRequest(User sender, FriendRequestDTO friendRequestDTO) {
-        User receiver = userSearchService.searchUserByName(friendRequestDTO.getReceiver());
-
-        if (friendRequestService.existsFriendRequest(sender, receiver)) {
-            FriendRequest friendRequest = friendRequestService.getFriendRequest(sender, receiver);
-            throw new RuntimeException(statusMessages.get(friendRequest.getStatus()));
-        }
+    public void sendFriendRequest(User sender, String receiverName) {
+        User receiver = userSearchService.searchUserByName(receiverName);
 
         if(sender.getFriends().contains(receiver))
-            throw new RuntimeException("You are already friends with this user");
+            throw new AlreadyFriendsException();
+
+        if (friendRequestService.existsFriendRequest(receiver, sender))
+            throw new FriendRequestAlreadySentForYou();
+
+        if (friendRequestService.existsFriendRequest(sender, receiver)) {
+            var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
+
+            if(friendRequest.isPending())
+                throw new FriendRequestAlreadySentException();
+
+            if(friendRequest.isAccepted())
+                throw new FriendRequestAlreadyAcceptException();
+
+            if(friendRequest.isDeclined())
+                throw new FriendRequestDeclinedException();
+        }
 
         friendRequestService.saveFriendRequest(FriendRequest.create(sender, receiver));
         eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
     }
 
     @Transactional
-    public void acceptFriendRequest(User receiver, AcceptFriendRequestDTO friendRequestDTO) {
-        User sender = userSearchService.searchUserByName(friendRequestDTO.getSender());
+    public void acceptFriendRequest(User receiver, String senderName) {
+        User sender = userSearchService.searchUserByName(senderName);
 
-        FriendRequest friendRequest = friendRequestService.getFriendRequest(sender, receiver);
-        if (friendRequest.isAccepted() || friendRequest.isDeclined())
-            throw new RuntimeException(statusMessages.get(friendRequest.getStatus()));
+        var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 
-        receiver.setFriend(sender);
-
-        if(friendRequestService.existsFriendRequest(receiver, sender)) {
-            FriendRequest friendRequest2 = friendRequestService.getFriendRequest(receiver, sender);
-            friendRequest2.setStatus(ACCEPTED);
-        }
+        if (friendRequest.isAccepted())
+            throw new FriendRequestAlreadyAcceptException();
+        if(friendRequest.isDeclined())
+            throw new FriendRequestDeclinedException();
 
         friendRequest.setStatus(ACCEPTED);
+        receiver.setFriend(sender);
+
         friendRequestService.saveFriendRequest(friendRequest);
         eventPublisher.publishEvent(AcceptFriendRequestEvent.create(sender, receiver));
     }
 
     @Transactional
-    public void declineFriendRequest(User receiver, DeclineFriendRequestDTO friendRequestDTO) {
-        User sender = userSearchService.searchUserByName(friendRequestDTO.getSender());
+    public void declineFriendRequest(User receiver, String senderName) {
+        User sender = userSearchService.searchUserByName(senderName);
 
-        FriendRequest friendRequest = friendRequestService.getFriendRequest(sender, receiver);
-        if (friendRequest.isDeclined() || friendRequest.isAccepted())
-            throw new RuntimeException(statusMessages.get(friendRequest.getStatus()));
+        var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
+
+        if (friendRequest.isAccepted())
+            throw new FriendRequestAlreadyAcceptException();
+        if(friendRequest.isDeclined())
+            throw new FriendRequestDeclinedException();
 
         friendRequest.setStatus(DECLINED);
+
         friendRequestService.saveFriendRequest(friendRequest);
         eventPublisher.publishEvent(DeclineFriendRequestEvent.create(sender, receiver));
     }

@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FriendRequestDTO {
-    String receiver;
+public class UserDTO {
+    String username;
+    String email;
 }

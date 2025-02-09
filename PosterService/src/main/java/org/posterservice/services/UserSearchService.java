@@ -3,6 +3,7 @@ package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.common.models.User;
+import org.posterservice.exception.UserNotFound;
 import org.posterservice.repositories.UserSearchRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +15,9 @@ import java.util.List;
 public class UserSearchService {
     private final UserSearchRepository userSearchRepository;
 
-    public User searchUserByName(String username) {
+    public User searchUserByName(String username) throws UserNotFound{
         return userSearchRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+                .orElseThrow(UserNotFound::new);
     }
 
     public List<User> searchFriendsByUser(User user, Pageable page) {

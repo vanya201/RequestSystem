@@ -1,7 +1,7 @@
 package org.posterservice.event;
 
 import org.common.models.User;
-import org.posterservice.notify.dto.DeclineFriendRequestDTO;
+import org.posterservice.notify.dto.impl.DeclineFriendRequestDTO;
 
 import java.util.EventObject;
 

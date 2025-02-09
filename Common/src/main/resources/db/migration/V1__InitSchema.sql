@@ -37,11 +37,15 @@ CREATE TABLE IF NOT EXISTS friend_requests (
                                     receiver_id   BIGINT NOT NULL,
                                     status        VARCHAR(20) NOT NULL DEFAULT 'PENDING',
                                     request_date  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                    version       BIGINT NOT NULL DEFAULT 0,
                                     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
                                     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
                                     CHECK (sender_id <> receiver_id),
                                     CHECK (status IN ('PENDING', 'ACCEPTED', 'DECLINED'))
 );
+
+CREATE UNIQUE INDEX idx_friend_request_normalized
+    ON friend_requests (LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id));
 
 CREATE TABLE IF NOT EXISTS topics (
                                       id          BIGSERIAL PRIMARY KEY,
