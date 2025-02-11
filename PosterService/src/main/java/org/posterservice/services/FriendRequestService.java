@@ -34,7 +34,7 @@ public class FriendRequestService {
 
 
 
-    public void createFriendRequest(FriendRequest friendRequest) {
+    public void saveFriendRequest(FriendRequest friendRequest) {
         friendRequestRepository.save(friendRequest);
     }
 }

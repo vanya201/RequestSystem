@@ -1,6 +1,7 @@
 package org.posterservice.services;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.common.models.User;
 import org.posterservice.exception.UserNotFound;
@@ -22,7 +23,9 @@ public class UserFriendsService {
 
 
 
-    public void deleteFriend(User user, String friendName){
+    @Transactional
+    public void deleteFriend(User userDetails, String friendName) {
+        User user = searchUsersService.searchUserByName(userDetails.getUsername());
         User friend = searchUsersService.searchUserByName(friendName);
         user.removeFriend(friend);
         userSearchRepository.save(friend);
@@ -30,7 +33,7 @@ public class UserFriendsService {
 
 
 
-    public void addFriend(User user, User friend)  {
+    public void addFriend(User user, User friend) {
         user.setFriend(friend);
         userSearchRepository.save(friend);
     }

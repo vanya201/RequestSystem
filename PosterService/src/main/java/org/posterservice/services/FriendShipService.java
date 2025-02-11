@@ -24,10 +24,11 @@ public class FriendShipService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public void sendFriendRequest(User sender, String receiverName) {
+    public void sendFriendRequest(User senderDetails, String receiverName) {
         User receiver = searchUsersService.searchUserByName(receiverName);
+        User sender =  searchUsersService.searchUserByName(senderDetails.getUsername());
 
-        if(sender.getFriends().contains(receiver))
+         if(sender.getFriends().contains(receiver))
             throw new AlreadyFriendsException();
 
         if (friendRequestService.existsFriendRequest(receiver, sender))
@@ -47,15 +48,16 @@ public class FriendShipService {
         }
 
         //sender and receiver is one unique key
-        friendRequestService.createFriendRequest(FriendRequest.create(sender, receiver));
+        friendRequestService.saveFriendRequest(FriendRequest.create(sender, receiver));
         eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
     }
 
 
 
     @Transactional
-    public void acceptFriendRequest(User receiver, String senderName) {
+    public void acceptFriendRequest(User receiverDetails, String senderName) {
         User sender = searchUsersService.searchUserByName(senderName);
+        User receiver =  searchUsersService.searchUserByName(receiverDetails.getUsername());
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 
@@ -67,7 +69,6 @@ public class FriendShipService {
         friendRequest.setStatus(ACCEPTED); //optimistic lock
         userFriendService.addFriend(receiver, sender);
 
-        friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(AcceptFriendRequestEvent.create(sender, receiver));
     }
 
@@ -86,7 +87,6 @@ public class FriendShipService {
 
         friendRequest.setStatus(DECLINED); //optimistic lock
 
-        friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(DeclineFriendRequestEvent.create(sender, receiver));
     }
 }

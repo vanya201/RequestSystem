@@ -44,7 +44,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
     @Builder.Default
-    @BatchSize(size = 20)
     private Set<User> friends = new LinkedHashSet<>();
 
     public void setFriend(User user) {
