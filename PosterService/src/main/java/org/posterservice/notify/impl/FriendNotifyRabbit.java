@@ -24,6 +24,8 @@ public class FriendNotifyRabbit implements FriendNotify {
             FriendRequestDTO.class.getSimpleName(), RabbitMQConfig.FRIEND_REQUEST_ROUTING_KEY
     );
 
+
+
     @Override
     public void notify(FriendRequestNotify friendRequest) {
         var routingKey = routing.get(friendRequest.getClass().getSimpleName());

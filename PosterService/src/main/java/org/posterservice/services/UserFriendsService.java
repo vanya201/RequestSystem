@@ -20,11 +20,15 @@ public class UserFriendsService {
         return userSearchRepository.findByFriendsContains(user, page).getContent();
     }
 
+
+
     public void deleteFriend(User user, String friendName){
         User friend = searchUsersService.searchUserByName(friendName);
         user.removeFriend(friend);
         userSearchRepository.save(friend);
     }
+
+
 
     public void addFriend(User user, User friend)  {
         user.setFriend(friend);

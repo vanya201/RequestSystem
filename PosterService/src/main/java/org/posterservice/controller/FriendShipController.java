@@ -38,6 +38,8 @@ public class FriendShipController {
         }
     }
 
+
+
     @PutMapping("/accept/{sender}")
     public ResponseEntity<Response> accept(@AuthenticationPrincipal User accepter, @PathVariable String sender) {
         try {
@@ -48,6 +50,8 @@ public class FriendShipController {
         }
     }
 
+
+
     @PutMapping("/decline/{sender}")
     public ResponseEntity<Response> decline(@AuthenticationPrincipal User decliner, @PathVariable String sender) {
         try {
@@ -57,6 +61,8 @@ public class FriendShipController {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
     }
+
+
 
     @GetMapping("/friends")
     public ResponseEntity<Response> friends(@AuthenticationPrincipal User user,
@@ -70,6 +76,8 @@ public class FriendShipController {
         }
     }
 
+
+
     @GetMapping("/requests")
     public ResponseEntity<Response> requests(@AuthenticationPrincipal User user,
                                             @RequestParam(defaultValue = "0") int page,
@@ -77,6 +85,8 @@ public class FriendShipController {
         //TODO
         return null;
     }
+
+
 
     @DeleteMapping("/delete/{friend}")
     public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal User user, @PathVariable String friend ) {

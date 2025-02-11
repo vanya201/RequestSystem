@@ -22,10 +22,12 @@ public class SearchUsersService {
     }
 
 
+
     public List<User> searchUsersByName(String username, Pageable page) {
         Page<User> users = userSearchRepository.findByUsernameLike(username, page);
         return users.isEmpty() ?
                 userSearchRepository.findSimilarUsernames(username, page).getContent()
                 : users.getContent();
     }
+    
 }

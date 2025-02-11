@@ -20,13 +20,19 @@ public class FriendRequestService {
                 .orElseThrow(FriendRequestNotFoundException::new);
     }
 
+
+
     public boolean existsFriendRequest(User sender, User receiver) {
         return friendRequestRepository.existsBySenderAndReceiver(sender, receiver);
     }
 
+
+
     public List<FriendRequest> getFriendRequestsForReceiver(User receiver, Pageable pageable) {
         return friendRequestRepository.findAllByReceiver(receiver, pageable).getContent();
     }
+
+
 
     public void createFriendRequest(FriendRequest friendRequest) {
         friendRequestRepository.save(friendRequest);

@@ -46,9 +46,12 @@ public class FriendShipService {
                 throw new FriendRequestDeclinedException();
         }
 
+        //sender and receiver is one unique key
         friendRequestService.createFriendRequest(FriendRequest.create(sender, receiver));
         eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
     }
+
+
 
     @Transactional
     public void acceptFriendRequest(User receiver, String senderName) {
@@ -61,12 +64,14 @@ public class FriendShipService {
         if(friendRequest.isDeclined())
             throw new FriendRequestDeclinedException();
 
-        friendRequest.setStatus(ACCEPTED);
+        friendRequest.setStatus(ACCEPTED); //optimistic lock
         userFriendService.addFriend(receiver, sender);
 
         friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(AcceptFriendRequestEvent.create(sender, receiver));
     }
+
+
 
     @Transactional
     public void declineFriendRequest(User receiver, String senderName) {
@@ -79,7 +84,7 @@ public class FriendShipService {
         if(friendRequest.isDeclined())
             throw new FriendRequestDeclinedException();
 
-        friendRequest.setStatus(DECLINED);
+        friendRequest.setStatus(DECLINED); //optimistic lock
 
         friendRequestService.createFriendRequest(friendRequest);
         eventPublisher.publishEvent(DeclineFriendRequestEvent.create(sender, receiver));

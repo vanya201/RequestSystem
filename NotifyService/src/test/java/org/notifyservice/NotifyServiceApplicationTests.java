@@ -1,10 +1,10 @@
-package org.posterservice;
+package org.notifyservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PosterServiceApplicationTests {
+class NotifyServiceApplicationTests {
 
     @Test
     void contextLoads() {

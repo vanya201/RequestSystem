@@ -21,9 +21,12 @@ public class FriendRequestListener {
     @EventListener
     @Async
     public void friendRequestListen(FriendRequestEvent event) {
+        // update cache for example
         var friendRequestDTO = (FriendRequestDTO)event.getSource();
         friendNotifyRabbit.notify(friendRequestDTO);
     }
+
+
 
     @EventListener
     @Async
@@ -31,6 +34,8 @@ public class FriendRequestListener {
         var acceptFriendRequestDTO = (AcceptFriendRequestDTO)event.getSource();
         friendNotifyRabbit.notify(acceptFriendRequestDTO);
     }
+
+
 
     @EventListener
     @Async

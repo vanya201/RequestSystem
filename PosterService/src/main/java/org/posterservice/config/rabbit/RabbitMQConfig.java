@@ -29,10 +29,13 @@ public class RabbitMQConfig {
     }
 
 
+
     @Bean
     public Queue acceptFriendRequestQueue() {
         return new Queue(ACCEPT_FRIEND_REQUEST_QUEUE, true);
     }
+
+
 
     @Bean
     public Queue declineFriendRequestQueue() {
@@ -40,10 +43,12 @@ public class RabbitMQConfig {
     }
 
 
+
     @Bean
     public TopicExchange friendRequestExchange() {
         return new TopicExchange(FRIEND_REQUEST_EXCHANGE);
     }
+
 
 
     @Bean
@@ -54,6 +59,7 @@ public class RabbitMQConfig {
     }
 
 
+
     @Bean
     public Binding acceptFriendRequestBinding(Queue acceptFriendRequestQueue, TopicExchange friendRequestExchange) {
         return BindingBuilder.bind(acceptFriendRequestQueue)
@@ -61,18 +67,22 @@ public class RabbitMQConfig {
                 .with(ACCEPT_FRIEND_REQUEST_ROUTING_KEY);
     }
 
+
+
     @Bean
-    public Binding declineFriendRequestBinding(Queue acceptFriendRequestQueue, TopicExchange friendRequestExchange) {
-        return BindingBuilder.bind(acceptFriendRequestQueue)
+    public Binding declineFriendRequestBinding(Queue declineFriendRequestQueue, TopicExchange friendRequestExchange) {
+        return BindingBuilder.bind(declineFriendRequestQueue)
                 .to(friendRequestExchange)
                 .with(DECLINE_FRIEND_REQUEST_ROUTING_KEY);
     }
+
 
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
+
 
 
     @Bean

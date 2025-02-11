@@ -1,0 +1,28 @@
+group = 'org'
+version = '0.0.1-SNAPSHOT'
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation project(':Common')
+    implementation project(':AuthService')
+}
+
+defaultTasks 'bootJar'
+
+bootJar {
+    archiveBaseName.set('my-app')
+    archiveVersion.set('1.0.0')
+    destinationDirectory = file("$projectDir/out")
+    mainClass = 'org.notifyservice.NotifyServiceApplication'
+}
