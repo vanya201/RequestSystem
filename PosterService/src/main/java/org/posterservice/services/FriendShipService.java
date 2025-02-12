@@ -25,6 +25,9 @@ public class FriendShipService {
 
     private final ApplicationEventPublisher eventPublisher;
 
+
+
+
     @Transactional
     public void sendFriendRequest(UserDetails senderDetails, String receiverName) {
         User receiver = searchUsersService.searchUserByName(receiverName);

@@ -1,8 +1,8 @@
 package org.posterservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.authservice.Response.Response;
-import org.authservice.Response.ResponseStatus;
+import org.authservice.response.Response;
+import org.authservice.response.ResponseStatus;
 import org.common.models.User;
 import org.posterservice.config.application.FriendShipMapper;
 import org.posterservice.services.FriendRequestService;

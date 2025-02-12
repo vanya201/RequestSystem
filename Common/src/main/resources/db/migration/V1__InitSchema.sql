@@ -63,4 +63,14 @@ CREATE TABLE IF NOT EXISTS posts (
                                     FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS reactions (
+                                    id          BIGSERIAL PRIMARY KEY,
+                                    user_id     BIGINT NOT NULL,
+                                    post_id     BIGINT NOT NULL,
+                                    reaction    VARCHAR(20) NOT NULL CHECK (reaction IN ('LIKE', 'DISLIKE')),
+                                    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                    CONSTRAINT unique_reaction_per_user_per_post UNIQUE (user_id, post_id)
+);
+
 CREATE EXTENSION pg_trgm;

@@ -1,4 +1,4 @@
-package org.authservice.Response;
+package org.authservice.response;
 
 public enum ResponseStatus {
     SUCCESS,

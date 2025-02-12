@@ -1,4 +1,4 @@
-package org.authservice.Response;
+package org.authservice.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
