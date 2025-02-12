@@ -6,6 +6,7 @@ import org.common.models.User;
 import org.posterservice.exception.FriendRequestNotFoundException;
 import org.posterservice.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

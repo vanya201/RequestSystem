@@ -1,11 +1,11 @@
 package org.posterservice.notify.impl;
 import lombok.RequiredArgsConstructor;
 import org.posterservice.config.rabbit.RabbitMQConfig;
-import org.posterservice.notify.dto.impl.AcceptFriendRequestDTO;
-import org.posterservice.notify.dto.impl.DeclineFriendRequestDTO;
-import org.posterservice.notify.dto.impl.FriendRequestDTO;
+import org.posterservice.notify.impl.dto.AcceptFriendRequestDTO;
+import org.posterservice.notify.impl.dto.DeclineFriendRequestDTO;
+import org.posterservice.notify.impl.dto.FriendRequestDTO;
 import org.posterservice.notify.FriendNotify;
-import org.posterservice.notify.dto.FriendRequestNotify;
+import org.posterservice.notify.FriendRequestNotify;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

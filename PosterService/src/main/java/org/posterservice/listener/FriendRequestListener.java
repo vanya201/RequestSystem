@@ -2,9 +2,9 @@ package org.posterservice.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.posterservice.notify.FriendNotify;
-import org.posterservice.notify.dto.impl.AcceptFriendRequestDTO;
-import org.posterservice.notify.dto.impl.DeclineFriendRequestDTO;
-import org.posterservice.notify.dto.impl.FriendRequestDTO;
+import org.posterservice.notify.impl.dto.AcceptFriendRequestDTO;
+import org.posterservice.notify.impl.dto.DeclineFriendRequestDTO;
+import org.posterservice.notify.impl.dto.FriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;

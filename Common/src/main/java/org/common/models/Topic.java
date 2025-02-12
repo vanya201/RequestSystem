@@ -3,6 +3,8 @@ package org.common.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,4 +21,7 @@ public class Topic {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private Set<Post> posts;
 }

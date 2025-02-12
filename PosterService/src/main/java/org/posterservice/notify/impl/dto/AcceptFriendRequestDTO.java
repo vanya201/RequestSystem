@@ -1,8 +1,8 @@
-package org.posterservice.notify.dto.impl;
+package org.posterservice.notify.impl.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.posterservice.notify.dto.FriendRequestNotify;
+import org.posterservice.notify.FriendRequestNotify;
 
 @Data
 @Builder

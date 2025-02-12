@@ -1,6 +1,7 @@
 package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
+import org.authservice.user.details.UserDetailsImpl;
 import org.common.models.FriendRequest;
 import org.common.models.User;
 import org.posterservice.event.AcceptFriendRequestEvent;
@@ -8,6 +9,7 @@ import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;
 import org.posterservice.exception.*;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class FriendShipService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public void sendFriendRequest(User senderDetails, String receiverName) {
+    public void sendFriendRequest(UserDetails senderDetails, String receiverName) {
         User receiver = searchUsersService.searchUserByName(receiverName);
         User sender =  searchUsersService.searchUserByName(senderDetails.getUsername());
 
@@ -55,7 +57,7 @@ public class FriendShipService {
 
 
     @Transactional
-    public void acceptFriendRequest(User receiverDetails, String senderName) {
+    public void acceptFriendRequest(UserDetails receiverDetails, String senderName) {
         User sender = searchUsersService.searchUserByName(senderName);
         User receiver =  searchUsersService.searchUserByName(receiverDetails.getUsername());
 
@@ -75,8 +77,9 @@ public class FriendShipService {
 
 
     @Transactional
-    public void declineFriendRequest(User receiver, String senderName) {
+    public void declineFriendRequest(UserDetails receiverDetails, String senderName) {
         User sender = searchUsersService.searchUserByName(senderName);
+        User receiver = ((UserDetailsImpl) receiverDetails).getUser();
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 

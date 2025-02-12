@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.authservice.Response.Response;
 import org.authservice.Response.ResponseStatus;
 import org.common.models.User;
-import org.posterservice.config.mapper.FriendShipMapper;
+import org.posterservice.config.application.FriendShipMapper;
 import org.posterservice.services.FriendRequestService;
 import org.posterservice.services.FriendShipService;
 import org.posterservice.services.UserFriendsService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class FriendShipController {
     private final FriendShipMapper friendShipMapper;
 
     @PostMapping("/request/{receiver}")
-    public ResponseEntity<Response> request(@AuthenticationPrincipal User sender, @PathVariable String receiver) {
+    public ResponseEntity<Response> request(@AuthenticationPrincipal UserDetails sender, @PathVariable String receiver) {
          try {
             friendShipService.sendFriendRequest(sender, receiver);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, receiver));
@@ -41,7 +42,7 @@ public class FriendShipController {
 
 
     @PutMapping("/accept/{sender}")
-    public ResponseEntity<Response> accept(@AuthenticationPrincipal User accepter, @PathVariable String sender) {
+    public ResponseEntity<Response> accept(@AuthenticationPrincipal UserDetails accepter, @PathVariable String sender) {
         try {
             friendShipService.acceptFriendRequest(accepter, sender);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, sender));
@@ -53,7 +54,7 @@ public class FriendShipController {
 
 
     @PutMapping("/decline/{sender}")
-    public ResponseEntity<Response> decline(@AuthenticationPrincipal User decliner, @PathVariable String sender) {
+    public ResponseEntity<Response> decline(@AuthenticationPrincipal UserDetails decliner, @PathVariable String sender) {
         try {
             friendShipService.declineFriendRequest(decliner, sender);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, sender));
@@ -65,7 +66,7 @@ public class FriendShipController {
 
 
     @GetMapping("/friends")
-    public ResponseEntity<Response> friends(@AuthenticationPrincipal User user,
+    public ResponseEntity<Response> friends(@AuthenticationPrincipal UserDetails user,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
@@ -79,7 +80,7 @@ public class FriendShipController {
 
 
     @GetMapping("/requests")
-    public ResponseEntity<Response> requests(@AuthenticationPrincipal User user,
+    public ResponseEntity<Response> requests(@AuthenticationPrincipal UserDetails user,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         //TODO
@@ -89,7 +90,7 @@ public class FriendShipController {
 
 
     @DeleteMapping("/delete/{friend}")
-    public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal User user, @PathVariable String friend ) {
+    public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal UserDetails user, @PathVariable String friend ) {
         try {
             userFriendsService.deleteFriend(user, friend);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, null));

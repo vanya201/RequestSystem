@@ -1,4 +1,4 @@
-package org.posterservice.config.mapper;
+package org.posterservice.config.application;
 
 import org.common.models.User;
 import org.mapstruct.Mapper;

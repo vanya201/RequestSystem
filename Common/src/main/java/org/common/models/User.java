@@ -28,6 +28,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
+
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "users_to_roles",
@@ -37,6 +39,8 @@ public class User {
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
+
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "friends",
@@ -45,6 +49,8 @@ public class User {
     )
     @Builder.Default
     private Set<User> friends = new LinkedHashSet<>();
+
+
 
     public void setFriend(User user) {
         getFriends().add(user);
