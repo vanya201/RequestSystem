@@ -2,17 +2,18 @@ package org.notifyservice.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.posterservice.config.rabbit.RabbitMQConfig;
-import org.posterservice.notify.impl.dto.AcceptFriendRequestDTO;
-import org.posterservice.notify.impl.dto.DeclineFriendRequestDTO;
-import org.posterservice.notify.impl.dto.FriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.FriendRequestDTO;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RabbitMQListener {
+public class FriendRequestListener {
     private final SimpMessagingTemplate messagingTemplate;
+
 
     @RabbitListener(queues = RabbitMQConfig.FRIEND_REQUEST_QUEUE)
     public void receiveMessage(FriendRequestDTO friendRequestDTO) {

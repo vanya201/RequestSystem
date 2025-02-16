@@ -89,6 +89,31 @@ services:
       - common_service
 
 
+  notify_service:
+    build:
+      context: ./NotifyService
+      dockerfile: Dockerfile
+      args:
+        JAVA_VERSION: ${JAVA_VERSION}
+    container_name: ${NOTIFY_SERVICE_NAME}
+    environment:
+      - APP_NAME=${NOTIFY_SERVICE_NAME}
+      - DB_HOST=${DB_SERVICE_NAME}
+      - DB_NAME=${DB_NAME}
+      - DB_MAIN_USER=${DB_MAIN_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AUTH_JWT_SECRET_KEY=${AUTH_JWT_SECRET_KEY}
+      - JAVA_VERSION=${JAVA_VERSION}
+      - RABBITMQ_HOST=${RABBITMQ_SERVICE_NAME}
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+    networks:
+      - dbs-network
+      - internal-network
+    depends_on:
+      - common_service
+
   rabbitmq_service:
     image: rabbitmq:management
     container_name: ${RABBITMQ_SERVICE_NAME}
