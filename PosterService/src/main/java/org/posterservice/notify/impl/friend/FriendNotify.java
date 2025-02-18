@@ -18,7 +18,7 @@ public class FriendNotify implements Notify {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private Map<String, String> routing = Map.of (
+    private final Map<String, String> routing = Map.of (
             AcceptFriendRequestDTO.class.getSimpleName(),   RabbitMQConfig.ACCEPT_FRIEND_REQUEST_ROUTING_KEY,
             DeclineFriendRequestDTO.class.getSimpleName(),  RabbitMQConfig.DECLINE_FRIEND_REQUEST_ROUTING_KEY,
             FriendRequestDTO.class.getSimpleName(),         RabbitMQConfig.FRIEND_REQUEST_ROUTING_KEY

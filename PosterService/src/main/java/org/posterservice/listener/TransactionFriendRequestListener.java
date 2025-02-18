@@ -8,7 +8,6 @@ import org.posterservice.notify.impl.friend.dto.FriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.FriendRequestEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;

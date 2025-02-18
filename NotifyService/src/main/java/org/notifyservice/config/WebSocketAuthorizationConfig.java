@@ -5,9 +5,6 @@ import org.springframework.security.config.annotation.web.messaging.MessageSecur
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.security.config.annotation.web.socket.EnableWebSocketSecurity;
 
-import static org.springframework.messaging.simp.SimpMessageType.MESSAGE;
-import static org.springframework.messaging.simp.SimpMessageType.SUBSCRIBE;
-
 @Configuration
 @EnableWebSocketSecurity
 public class WebSocketAuthorizationConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
@@ -19,11 +16,7 @@ public class WebSocketAuthorizationConfig extends AbstractSecurityWebSocketMessa
                 .simpSubscribeDestMatchers("/user/**", "/topic/**", "/queue/**").hasRole("USER")
                 .simpDestMatchers("/app/**").hasRole("USER")
                 .simpDestMatchers("/user/**").denyAll()
-                .simpDestMatchers("/user/{username}/**")
-                    .access("@webSocketSecurityService.canAccessPrincipal(authentication, #username)")
                 .simpDestMatchers("/topic/**", "/queue/**").denyAll()
-                .simpTypeMatchers(MESSAGE, SUBSCRIBE).denyAll()
                 .anyMessage().denyAll();
-
     }
 }
