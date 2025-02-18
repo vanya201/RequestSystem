@@ -18,9 +18,6 @@ public class UserFriendsService {
     private final UserSearchRepository userSearchRepository;
     private final SearchUsersService searchUsersService;
 
-    public List<User> searchFriendsByUser(User user, Pageable page) {
-        return userSearchRepository.findByFriendsContains(user, page).getContent();
-    }
 
     public List<User> searchFriendsByUser(UserDetails userDetails, Pageable page) {
         User user = searchUsersService.searchUserByName(userDetails.getUsername());

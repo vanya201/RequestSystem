@@ -2,11 +2,12 @@ package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.common.models.FriendRequest;
+import org.common.models.FriendRequestStatus;
 import org.common.models.User;
 import org.posterservice.exception.FriendRequestNotFoundException;
 import org.posterservice.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,15 @@ public class FriendRequestService {
 
 
 
-    public void saveFriendRequest(FriendRequest friendRequest) {
-        friendRequestRepository.save(friendRequest);
+    public void createFriendRequest(User sender, User receiver) {
+        friendRequestRepository.save(FriendRequest.create(sender, receiver));
+    }
+
+
+
+    @Scheduled(fixedRate = 60 * 60 * 1000)
+    public void cleanUpFriendRequests() {
+        friendRequestRepository.deleteByStatus(FriendRequestStatus.ACCEPTED);
+        friendRequestRepository.deleteByStatus(FriendRequestStatus.DECLINED);
     }
 }

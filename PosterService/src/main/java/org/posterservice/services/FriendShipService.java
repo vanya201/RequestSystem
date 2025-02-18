@@ -2,7 +2,6 @@ package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.authservice.user.details.UserDetailsImpl;
-import org.common.models.FriendRequest;
 import org.common.models.User;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
@@ -49,7 +48,7 @@ public class FriendShipService {
         }
 
         //sender and receiver is one unique key
-        friendRequestService.saveFriendRequest(FriendRequest.create(sender, receiver));
+        friendRequestService.createFriendRequest(sender, receiver);
         eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
     }
 
