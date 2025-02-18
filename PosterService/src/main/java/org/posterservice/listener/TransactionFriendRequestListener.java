@@ -11,15 +11,17 @@ import org.posterservice.event.FriendRequestEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @RequiredArgsConstructor
-public class FriendRequestListener {
+public class TransactionFriendRequestListener {
 
     private final Notify friendNotify;
 
-    @EventListener
     @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void friendRequestListen(FriendRequestEvent event) {
         // update cache for example
         var friendRequestDTO = (FriendRequestDTO)event.getSource();
@@ -27,18 +29,16 @@ public class FriendRequestListener {
     }
 
 
-
-    @EventListener
     @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void acceptFriendRequestListen(AcceptFriendRequestEvent event) {
         var acceptFriendRequestDTO = (AcceptFriendRequestDTO)event.getSource();
         friendNotify.notify(acceptFriendRequestDTO);
     }
 
 
-
-    @EventListener
     @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void declineFriendRequestListen(DeclineFriendRequestEvent event) {
         var declineFriendRequestDTO = (DeclineFriendRequestDTO)event.getSource();
         friendNotify.notify(declineFriendRequestDTO);
