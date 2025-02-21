@@ -20,7 +20,7 @@ public abstract class Notify {
         Annotation annotationRequestNotify = registeredAnnotationTypes(friendRequest.getClass().getDeclaredAnnotations());
         Method methodToInvoke = methodCache.get(annotationRequestNotify);
         if (methodToInvoke == null) {
-            methodToInvoke = getMethodByAnnotation(annotationRequestNotify.annotationType());
+            methodToInvoke = getMethodByAnnotation(annotationRequestNotify);
             methodCache.put(annotationRequestNotify, methodToInvoke);
         }
         try {
@@ -41,11 +41,15 @@ public abstract class Notify {
 
 
 
-    private Method getMethodByAnnotation(Class<? extends Annotation> annotationRequestNotify) {
+    private Method getMethodByAnnotation(Annotation annotationRequestNotify) {
         return Arrays.stream(this.getClass().getDeclaredMethods())
-                .filter(m -> m.isAnnotationPresent(annotationRequestNotify))
+                .filter(m -> {
+                    Annotation annotation = m.getAnnotation(annotationRequestNotify.annotationType());
+                    return annotation != null && annotation.equals(annotationRequestNotify);
+                })
                 .findFirst()
                 .orElseThrow();
     }
+
 
 }
