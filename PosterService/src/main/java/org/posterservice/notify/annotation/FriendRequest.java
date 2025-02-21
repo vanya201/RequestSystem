@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface FriendRequest {
-    Type value();
+    Type value() default Type.NONE;
 
     enum Type {
-        SEND, ACCEPT, DECLINE
+        SEND, ACCEPT, DECLINE, NONE
     }
 }

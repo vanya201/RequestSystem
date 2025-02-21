@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface ReactionRequest {
-    Type value();
+    Type value() default Type.NONE;
 
     enum Type {
-        LIKE, DISLIKE
+        LIKE, DISLIKE, NONE
     }
 }
