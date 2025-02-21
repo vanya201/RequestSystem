@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.posterservice.config.rabbit.RabbitMQConfig;
 import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
 import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
-import org.posterservice.notify.impl.friend.dto.FriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.SendFriendRequestDTO;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.broker.SimpleBrokerMessageHandler;
-import org.springframework.messaging.simp.broker.SubscriptionRegistry;
 import org.springframework.stereotype.Component;
 
 
@@ -19,7 +17,7 @@ public class FriendRequestListener {
 
 
     @RabbitListener(queues = RabbitMQConfig.FRIEND_REQUEST_QUEUE)
-    public void receiveMessage(FriendRequestDTO friendRequestDTO) {
+    public void receiveMessage(SendFriendRequestDTO friendRequestDTO) {
 
         messagingTemplate.convertAndSendToUser(
                 friendRequestDTO.getRecipient(),

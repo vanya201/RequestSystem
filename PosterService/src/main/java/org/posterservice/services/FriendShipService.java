@@ -5,7 +5,7 @@ import org.authservice.user.details.UserDetailsImpl;
 import org.common.models.User;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
-import org.posterservice.event.FriendRequestEvent;
+import org.posterservice.event.SendFriendRequestEvent;
 import org.posterservice.exception.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,7 +49,7 @@ public class FriendShipService {
 
         //sender and receiver is one unique key
         friendRequestService.createFriendRequest(sender, receiver);
-        eventPublisher.publishEvent(FriendRequestEvent.create(sender, receiver));
+        eventPublisher.publishEvent(SendFriendRequestEvent.create(sender, receiver));
     }
 
 

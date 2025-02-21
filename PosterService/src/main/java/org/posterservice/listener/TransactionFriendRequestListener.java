@@ -1,13 +1,13 @@
 package org.posterservice.listener;
 
 import lombok.RequiredArgsConstructor;
+import org.posterservice.event.SendFriendRequestEvent;
 import org.posterservice.notify.Notify;
 import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
 import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
-import org.posterservice.notify.impl.friend.dto.FriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
-import org.posterservice.event.FriendRequestEvent;
+import org.posterservice.notify.impl.friend.dto.SendFriendRequestDTO;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -21,9 +21,9 @@ public class TransactionFriendRequestListener {
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void friendRequestListen(FriendRequestEvent event) {
+    public void friendRequestListen(SendFriendRequestEvent event) {
         // update cache for example
-        var friendRequestDTO = (FriendRequestDTO)event.getSource();
+        var friendRequestDTO = (SendFriendRequestDTO)event.getSource();
         friendNotify.notify(friendRequestDTO);
     }
 
