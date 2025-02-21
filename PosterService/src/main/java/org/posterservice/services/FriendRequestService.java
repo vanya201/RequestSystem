@@ -31,7 +31,8 @@ public class FriendRequestService {
 
 
     public List<FriendRequest> getFriendRequestsForReceiver(User receiver, Pageable pageable) {
-        return friendRequestRepository.findAllByReceiver(receiver, pageable).getContent();
+        return friendRequestRepository.findAllByReceiverAndStatus(receiver,
+                FriendRequestStatus.PENDING, pageable).getContent();
     }
 
 

@@ -11,20 +11,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class FriendRabbitMQConfig {
 
     public static final String FRIEND_REQUEST_EXCHANGE = "friendRequestExchange";
 
-    public static final String FRIEND_REQUEST_QUEUE = "friendRequestQueue";
+    public static final String FRIEND_REQUEST_QUEUE = "sendFriendRequestQueue";
     public static final String ACCEPT_FRIEND_REQUEST_QUEUE = "acceptFriendRequestQueue";
     public static final String DECLINE_FRIEND_REQUEST_QUEUE = "declineFriendRequestQueue";
 
-    public static final String FRIEND_REQUEST_ROUTING_KEY = "friendRequestRoute";
+    public static final String FRIEND_REQUEST_ROUTING_KEY = "sendFriendRequestRoute";
     public static final String ACCEPT_FRIEND_REQUEST_ROUTING_KEY = "acceptFriendRequestRoute";
     public static final String DECLINE_FRIEND_REQUEST_ROUTING_KEY = "declineFriendRequestRoute";
 
     @Bean
-    public Queue friendRequestQueue() {
+    public Queue sendFriendRequestQueue() {
         return new Queue(FRIEND_REQUEST_QUEUE, true);
     }
 
@@ -52,8 +52,8 @@ public class RabbitMQConfig {
 
 
     @Bean
-    public Binding friendRequestBinding(Queue friendRequestQueue, TopicExchange friendRequestExchange) {
-        return BindingBuilder.bind(friendRequestQueue)
+    public Binding friendRequestBinding(Queue sendFriendRequestQueue, TopicExchange friendRequestExchange) {
+        return BindingBuilder.bind(sendFriendRequestQueue)
                 .to(friendRequestExchange)
                 .with(FRIEND_REQUEST_ROUTING_KEY);
     }

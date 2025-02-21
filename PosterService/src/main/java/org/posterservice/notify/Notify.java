@@ -15,15 +15,15 @@ public abstract class Notify {
     private static final Logger logger = LoggerFactory.getLogger(Notify.class);
 
 
-
     public void notify(RequestNotify friendRequest) {
-        Annotation annotationRequestNotify = registeredAnnotationTypes(friendRequest.getClass().getDeclaredAnnotations());
+        Annotation annotationRequestNotify = registeredAnnotationTypeFirst(friendRequest.getClass().getDeclaredAnnotations());
         Method methodToInvoke = methodCache.get(annotationRequestNotify);
         if (methodToInvoke == null) {
             methodToInvoke = getMethodByAnnotation(annotationRequestNotify);
             methodCache.put(annotationRequestNotify, methodToInvoke);
         }
         try {
+            methodToInvoke.setAccessible(true);
             methodToInvoke.invoke(this, friendRequest);
         } catch (Exception e) {
             logger.error("Error invoking method", e);
@@ -32,7 +32,7 @@ public abstract class Notify {
 
 
 
-    private Annotation registeredAnnotationTypes(Annotation[] annotations) {
+    private Annotation registeredAnnotationTypeFirst(Annotation[] annotations) {
         Set<Class<? extends Annotation>> registeredAnnotations = NotifyAnnotationRegister.getInstance().getAnnotations();
         return Arrays.stream(annotations).filter(annotation ->
                 registeredAnnotations.contains(annotation.annotationType())
@@ -43,10 +43,8 @@ public abstract class Notify {
 
     private Method getMethodByAnnotation(Annotation annotationRequestNotify) {
         return Arrays.stream(this.getClass().getDeclaredMethods())
-                .filter(m -> {
-                    Annotation annotation = m.getAnnotation(annotationRequestNotify.annotationType());
-                    return annotation != null && annotation.equals(annotationRequestNotify);
-                })
+                .filter(m -> m.isAnnotationPresent(annotationRequestNotify.annotationType()))
+                .filter(m -> m.getAnnotation(annotationRequestNotify.annotationType()).equals(annotationRequestNotify))
                 .findFirst()
                 .orElseThrow();
     }

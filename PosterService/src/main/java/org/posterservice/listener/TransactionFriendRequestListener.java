@@ -19,6 +19,8 @@ public class TransactionFriendRequestListener {
 
     private final Notify friendNotify;
 
+
+
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void friendRequestListen(SendFriendRequestEvent event) {
@@ -28,12 +30,14 @@ public class TransactionFriendRequestListener {
     }
 
 
+
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void acceptFriendRequestListen(AcceptFriendRequestEvent event) {
         var acceptFriendRequestDTO = (AcceptFriendRequestDTO)event.getSource();
         friendNotify.notify(acceptFriendRequestDTO);
     }
+
 
 
     @Async

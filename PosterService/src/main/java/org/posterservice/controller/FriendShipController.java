@@ -3,6 +3,8 @@ package org.posterservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.authservice.response.Response;
 import org.authservice.response.ResponseStatus;
+import org.authservice.user.details.UserDetailsImpl;
+import org.common.models.FriendRequest;
 import org.common.models.User;
 import org.posterservice.config.application.FriendShipMapper;
 import org.posterservice.services.FriendRequestService;
@@ -83,8 +85,12 @@ public class FriendShipController {
     public ResponseEntity<Response> requests(@AuthenticationPrincipal UserDetails user,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
-        //TODO
-        return null;
+        try {
+            List<FriendRequest> requests = friendRequestService.getFriendRequestsForReceiver(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
+            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toFriendRequestDTOList(requests)));
+        } catch (Exception e) {
+            return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
+        }
     }
 
 
