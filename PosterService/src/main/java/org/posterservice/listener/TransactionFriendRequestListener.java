@@ -2,7 +2,7 @@ package org.posterservice.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.posterservice.event.SendFriendRequestEvent;
-import org.posterservice.notify.Notify;
+import org.posterservice.notify.Notifiable;
 import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
 import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
 import org.posterservice.event.AcceptFriendRequestEvent;
@@ -17,7 +17,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class TransactionFriendRequestListener {
 
-    private final Notify friendNotify;
+    private final Notifiable friendNotify;
 
 
 
