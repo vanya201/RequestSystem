@@ -18,6 +18,7 @@ public class NotifyAnnotationRegister {
         annotations = Set.of (
                 FriendRequest.class,
                 ReactionRequest.class
+                //maybe packet scan
         );
     }
 

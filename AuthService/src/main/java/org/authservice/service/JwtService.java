@@ -12,8 +12,11 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${app.jwt.secret}")
-    private String jwtSigningKey;
+    @Value("${app.jwt.privateSecret:}")
+    private String jwtSigningPrivateKey;
+
+    @Value("${app.jwt.publicSecret:}")
+    private String jwtSigningPublicKey;
 
     @Value("${app.jwt.expiration}")
     private long TOKEN_VALIDITY;
@@ -22,7 +25,7 @@ public class JwtService {
         return Jwts.builder().setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 60 * 1000))
-                .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
+                .signWith(SignatureAlgorithm.RS256, jwtSigningPrivateKey).compact();
     }
 
     public boolean isTokenValid(String token) {
@@ -54,7 +57,7 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(jwtSigningKey)
+                .setSigningKey(jwtSigningPublicKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
