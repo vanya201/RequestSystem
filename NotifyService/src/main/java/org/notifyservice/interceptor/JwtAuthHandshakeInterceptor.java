@@ -35,7 +35,7 @@ public class JwtAuthHandshakeInterceptor implements HandshakeInterceptor {
 
         var jwt = authHeader.substring(BEARER_PREFIX.length());
 
-        if(!jwtService.isTokenValid(jwt))
+        if(jwtService.isTokenValid(jwt))
             return false;
 
         var username = jwtService.extractUserName(jwt);

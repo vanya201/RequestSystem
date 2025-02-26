@@ -3,35 +3,36 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${app.jwt.privateSecret:}")
-    private String jwtSigningPrivateKey;
-
-    @Value("${app.jwt.publicSecret:}")
-    private String jwtSigningPublicKey;
 
     @Value("${app.jwt.expiration}")
     private long TOKEN_VALIDITY;
 
+    @Autowired
+    private JWTKeyService jwtKeyService;
+
     public String generateToken(UserDetails user) {
+        Key privateKey = jwtKeyService.getPrivateKey();
         return Jwts.builder().setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 60 * 1000))
-                .signWith(SignatureAlgorithm.RS256, jwtSigningPrivateKey).compact();
+                .signWith(SignatureAlgorithm.RS256, privateKey).compact();
     }
 
     public boolean isTokenValid(String token) {
         try {
             final String userName = extractUserName(token);
-            return (userName != null && !isTokenExpired(token));
+            return (userName != null || !isTokenExpired(token));
         }catch (Exception e)
         {
             return false;
@@ -56,8 +57,9 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+        Key publicKey = jwtKeyService.getPublicKey();
         return Jwts.parser()
-                .setSigningKey(jwtSigningPublicKey)
+                .setSigningKey(publicKey)
                 .parseClaimsJws(token)
                 .getBody();
     }

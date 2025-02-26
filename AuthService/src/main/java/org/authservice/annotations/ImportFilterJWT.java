@@ -13,7 +13,8 @@ import java.lang.annotation.Target;
 @Import({
         org.authservice.filters.JwtAuthFilter.class,
         org.authservice.service.UserService.class,
-        org.authservice.service.JwtService.class
+        org.authservice.service.JwtService.class,
+        org.authservice.service.JWTKeyService.class
 })
 @EnableJpaRepositories(basePackages = "org.authservice.repositories")
 public @interface ImportFilterJWT { }
