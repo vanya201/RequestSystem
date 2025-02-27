@@ -1,6 +1,7 @@
 package org.authservice.config;
 
 import lombok.RequiredArgsConstructor;
+import org.common.annotations.CommonConfigScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@CommonConfigScan
 public class AuthServiceConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {

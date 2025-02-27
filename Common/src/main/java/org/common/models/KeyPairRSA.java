@@ -21,7 +21,7 @@ public class KeyPairRSA {
     private byte[] publicKey;
 
     @Lob
-    private byte[] privateKey;
+    private byte[] encryptPrivateKey;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

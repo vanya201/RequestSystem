@@ -3,6 +3,7 @@ package org.authservice.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.authservice.repositories.KeyPairRepository;
+import org.common.utils.EncryptUtil;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -16,14 +17,18 @@ import java.security.spec.X509EncodedKeySpec;
 @RequiredArgsConstructor
 public class JWTKeyService {
     private final KeyPairRepository keyPairRepository;
+    private final EncryptUtil encryptUtil;
 
     @Transactional
     public Key getPrivateKey() {
-        byte[] privateKey = keyPairRepository
-                .findFirstByPrivateKeyIsNotNullOrderByCreatedAtDesc()
-                .getPrivateKey();
+        byte[] encryptPrivateKey = keyPairRepository
+                .findFirstByEncryptPrivateKeyIsNotNullOrderByCreatedAtDesc()
+                .getEncryptPrivateKey();
+        byte[] privateKey = encryptUtil.decrypt(encryptPrivateKey);
         return getPrivateKeyFromBytes(privateKey);
     }
+
+
 
     @Transactional
     public Key getPublicKey() {
@@ -32,6 +37,7 @@ public class JWTKeyService {
                 .getPublicKey();
         return getPublicKeyFromBytes(publicKey);
     }
+
 
 
     public static PrivateKey getPrivateKeyFromBytes(byte[] keyBytes) {
@@ -43,6 +49,7 @@ public class JWTKeyService {
             throw new RuntimeException("Error while decoding private key", e);
         }
     }
+
 
 
     public static PublicKey getPublicKeyFromBytes(byte[] keyBytes) {

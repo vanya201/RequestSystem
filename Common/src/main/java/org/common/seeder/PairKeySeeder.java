@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.common.models.KeyPairRSA;
 import org.common.repository.KeyPairRepository;
+import org.common.utils.EncryptUtil;
 import org.springframework.stereotype.Component;
 
 import java.security.KeyPair;
@@ -17,6 +18,7 @@ import java.util.Base64;
 public class PairKeySeeder {
 
     private final KeyPairRepository keyPairRepository;
+    private final EncryptUtil encryptUtil;
 
     @PostConstruct
     public void init() throws Exception {
@@ -26,9 +28,11 @@ public class PairKeySeeder {
     private void generateAndSaveKeyPair() throws Exception {
         if (keyPairRepository.findAll().isEmpty()) {
             KeyPair keyPair = generateKeyPair();
-            KeyPairRSA keyPairRSAEntity = KeyPairRSA.builder()
+            KeyPairRSA keyPairRSAEntity =
+                    KeyPairRSA
+                    .builder()
                     .publicKey(keyPair.getPublic().getEncoded())
-                    .privateKey(keyPair.getPrivate().getEncoded())
+                    .encryptPrivateKey(encryptUtil.encrypt(keyPair.getPrivate().getEncoded()))
                     .build();
             keyPairRepository.save(keyPairRSAEntity);
         }

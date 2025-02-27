@@ -33,8 +33,7 @@ public class JwtService {
         try {
             final String userName = extractUserName(token);
             return (userName != null || !isTokenExpired(token));
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             return false;
         }
     }
