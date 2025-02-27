@@ -2,14 +2,13 @@ package org.common.seeder;
 
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import org.common.models.KeyPairRSA;
 import org.common.repository.KeyPairRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 
@@ -25,15 +24,14 @@ public class PairKeySeeder {
     }
 
     private void generateAndSaveKeyPair() throws Exception {
-        if (keyPairRepository.existsById(1L))
-            return;
-
-        KeyPair keyPair = generateKeyPair();
-        org.common.models.KeyPair keyPairEntity = org.common.models.KeyPair.builder()
-                .publicKey(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()))
-                .privateKey(Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()))
-                .build();
-        keyPairRepository.save(keyPairEntity);
+        if (keyPairRepository.findAll().isEmpty()) {
+            KeyPair keyPair = generateKeyPair();
+            KeyPairRSA keyPairRSAEntity = KeyPairRSA.builder()
+                    .publicKey(keyPair.getPublic().getEncoded())
+                    .privateKey(keyPair.getPrivate().getEncoded())
+                    .build();
+            keyPairRepository.save(keyPairRSAEntity);
+        }
     }
 
     private KeyPair generateKeyPair() throws Exception {
@@ -41,5 +39,4 @@ public class PairKeySeeder {
         keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
     }
-
 }

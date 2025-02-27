@@ -1,4 +1,4 @@
-package org.authservice.configs.security;
+package org.authservice.config.security;
 import org.authservice.filters.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

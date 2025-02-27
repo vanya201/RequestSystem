@@ -2,6 +2,9 @@ package org.common.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -9,17 +12,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class KeyPair {
+public class KeyPairRSA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
-    private String publicKey;
+    private byte[] publicKey;
 
     @Lob
-    //TODO: make it an encrypted field
-    private String privateKey;
+    private byte[] privateKey;
 
-    //TODO: added Date created
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

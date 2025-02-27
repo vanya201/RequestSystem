@@ -11,10 +11,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 
-
-//TODO: Analyze format of the keys
 @Service
 @RequiredArgsConstructor
 public class JWTKeyService {
@@ -22,20 +19,23 @@ public class JWTKeyService {
 
     @Transactional
     public Key getPrivateKey() {
-        String privateKey = keyPairRepository.findByIdAndPrivateKeyIsNotNull(1L).getPrivateKey();
-        //TODO: replace find by id with find first by Date created
-        return getPrivateKeyFromBase64(privateKey);
+        byte[] privateKey = keyPairRepository
+                .findFirstByPrivateKeyIsNotNullOrderByCreatedAtDesc()
+                .getPrivateKey();
+        return getPrivateKeyFromBytes(privateKey);
     }
 
     @Transactional
     public Key getPublicKey() {
-        String publicKey = keyPairRepository.findByIdAndPublicKeyIsNotNull(1L).getPublicKey();
-        return getPublicKeyFromBase64(publicKey);
+        byte[] publicKey = keyPairRepository
+                .findFirstByPublicKeyIsNotNullOrderByCreatedAtDesc()
+                .getPublicKey();
+        return getPublicKeyFromBytes(publicKey);
     }
 
-    public static PrivateKey getPrivateKeyFromBase64(String base64PrivateKey) {
+
+    public static PrivateKey getPrivateKeyFromBytes(byte[] keyBytes) {
         try {
-            byte[] keyBytes = Base64.getDecoder().decode(base64PrivateKey);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePrivate(spec);
@@ -44,9 +44,9 @@ public class JWTKeyService {
         }
     }
 
-    public static PublicKey getPublicKeyFromBase64(String base64PublicKey) {
+
+    public static PublicKey getPublicKeyFromBytes(byte[] keyBytes) {
         try {
-            byte[] keyBytes = Base64.getDecoder().decode(base64PublicKey);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePublic(spec);

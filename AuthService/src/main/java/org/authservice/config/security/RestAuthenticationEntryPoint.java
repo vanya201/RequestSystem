@@ -1,4 +1,4 @@
-package org.authservice.configs.security;
+package org.authservice.config.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
