@@ -18,7 +18,6 @@ import java.util.Base64;
 public class PairKeySeeder {
 
     private final KeyPairRepository keyPairRepository;
-    private final EncryptUtil encryptUtil;
 
     @PostConstruct
     public void init() throws Exception {
@@ -26,13 +25,13 @@ public class PairKeySeeder {
     }
 
     private void generateAndSaveKeyPair() throws Exception {
-        if (keyPairRepository.findAll().isEmpty()) {
+        if (keyPairRepository.findAll().isEmpty())
+        {
             KeyPair keyPair = generateKeyPair();
-            KeyPairRSA keyPairRSAEntity =
-                    KeyPairRSA
+            KeyPairRSA keyPairRSAEntity = KeyPairRSA
                     .builder()
-                    .publicKey(keyPair.getPublic().getEncoded())
-                    .encryptPrivateKey(encryptUtil.encrypt(keyPair.getPrivate().getEncoded()))
+                    .publicKey(keyPair.getPublic())
+                    .privateKey(keyPair.getPrivate())
                     .build();
             keyPairRepository.save(keyPairRSAEntity);
         }

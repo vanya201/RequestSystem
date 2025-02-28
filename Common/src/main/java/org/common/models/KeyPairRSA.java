@@ -2,8 +2,12 @@ package org.common.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.common.converter.PrivateKeyConverter;
+import org.common.converter.PublicKeyConverter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,10 +22,12 @@ public class KeyPairRSA {
     private Long id;
 
     @Lob
-    private byte[] publicKey;
+    @Convert(converter = org.common.converter.PublicKeyConverter.class)
+    private PublicKey publicKey;
 
     @Lob
-    private byte[] encryptPrivateKey;
+    @Convert(converter = org.common.converter.PrivateKeyConverter.class)
+    private PrivateKey privateKey;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

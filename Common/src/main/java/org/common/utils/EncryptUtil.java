@@ -1,6 +1,14 @@
 package org.common.utils;
 
 public interface EncryptUtil {
-    <T> byte[] encrypt(T data);
-    <T> T decrypt(byte[] data);
+
+    byte[] encrypt(byte[] data);
+    byte[] decrypt(byte[] data);
+
+    String encrypt(String data);
+    String decrypt(String data);
+
+    <T> byte[] encryptObject(T data);
+    <T> T decryptObject(byte[] data);
 }
+

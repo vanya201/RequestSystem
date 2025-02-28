@@ -1,5 +1,7 @@
 package org.authservice.repositories;
 
+import java.security.PublicKey;
+
 public interface PublicKeyProjection {
-    byte[] getPublicKey();
+   PublicKey getPublicKey();
 }

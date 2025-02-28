@@ -12,6 +12,6 @@ public interface KeyPairRepository extends JpaRepository<KeyPairRSA, Long> {
     PublicKeyProjection findFirstByPublicKeyIsNotNullOrderByCreatedAtDesc();
 
     @Cacheable(value = "pairKey", key = "'privateKey'")
-    PrivateKeyProjection findFirstByEncryptPrivateKeyIsNotNullOrderByCreatedAtDesc();
+    PrivateKeyProjection findFirstByPrivateKeyIsNotNullOrderByCreatedAtDesc();
 }
 

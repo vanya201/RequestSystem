@@ -31,8 +31,7 @@ public class AuthUserService {
                                 .username(requestDTO.getUsername())
                                 .password(passwordEncoder.encode(requestDTO.getPassword()))
                                 .email(requestDTO.getEmail())
-                                .roles(new HashSet<>(Set.of(
-                                        roleService.getByRolState(RoleState.USER))))
+                                .roles(Set.of(roleService.getByRolState(RoleState.USER)))
                                 .build());
     }
 

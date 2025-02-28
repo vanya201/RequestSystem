@@ -19,10 +19,10 @@ public class JwtService {
     private long TOKEN_VALIDITY;
 
     @Autowired
-    private JWTKeyService jwtKeyService;
+    private RSAKeyService rsaKeyService;
 
     public String generateToken(UserDetails user) {
-        Key privateKey = jwtKeyService.getPrivateKey();
+        Key privateKey = rsaKeyService.getPrivateKey();
         return Jwts.builder().setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 60 * 1000))
@@ -56,7 +56,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        Key publicKey = jwtKeyService.getPublicKey();
+        Key publicKey = rsaKeyService.getPublicKey();
         return Jwts.parser()
                 .setSigningKey(publicKey)
                 .parseClaimsJws(token)

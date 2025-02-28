@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
         org.authservice.filters.JwtAuthFilter.class,
         org.authservice.service.UserService.class,
         org.authservice.service.JwtService.class,
-        org.authservice.service.JWTKeyService.class,
+        org.authservice.service.RSAKeyService.class,
         org.authservice.config.cache.KeyCachingConfig.class
 })
 @CommonConfigScan

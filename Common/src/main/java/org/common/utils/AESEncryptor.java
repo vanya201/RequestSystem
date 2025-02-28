@@ -15,6 +15,7 @@ public class AESEncryptor implements Encryptor {
 
     @Override
     public byte[] encrypt(byte[] data) throws Exception {
+        //maybe added salt here
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         return cipher.doFinal(data);

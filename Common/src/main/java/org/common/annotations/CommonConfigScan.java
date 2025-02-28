@@ -1,7 +1,6 @@
 package org.common.annotations;
 
 import org.common.config.EncryptConfig;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
