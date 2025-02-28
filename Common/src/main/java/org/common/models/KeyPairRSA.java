@@ -22,11 +22,9 @@ public class KeyPairRSA {
     private Long id;
 
     @Lob
-    @Convert(converter = org.common.converter.PublicKeyConverter.class)
     private PublicKey publicKey;
 
     @Lob
-    @Convert(converter = org.common.converter.PrivateKeyConverter.class)
     private PrivateKey privateKey;
 
     @CreationTimestamp
