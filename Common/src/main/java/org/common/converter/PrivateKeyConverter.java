@@ -5,13 +5,13 @@ import javax.persistence.Converter;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import org.common.config.EncryptConfig;
-import org.common.utils.EncryptUtil;
+import org.common.utils.ByteEncryptor;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 @Converter
 public class PrivateKeyConverter implements AttributeConverter<PrivateKey, byte[]> {
 
-    private final EncryptUtil encryptUtil = new EncryptConfig().encryptUtil();
+    private final ByteEncryptor encryptUtil = new EncryptConfig().byteEncryptUtil();
 
     @Override
     public byte[] convertToDatabaseColumn(PrivateKey privateKey) {
