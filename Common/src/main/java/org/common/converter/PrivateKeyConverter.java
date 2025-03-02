@@ -5,7 +5,7 @@ import javax.persistence.Converter;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import org.common.config.EncryptConfig;
-import org.common.utils.ByteEncryptor;
+import org.common.utils.decrypt.ByteEncryptor;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 @Converter

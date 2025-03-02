@@ -1,4 +1,6 @@
-package org.common.utils;
+package org.common.utils.decrypt.impl;
+
+import org.common.utils.decrypt.ByteEncryptor;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

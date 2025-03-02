@@ -1,4 +1,6 @@
-package org.common.utils;
+package org.common.utils.decrypt.impl;
+import org.common.utils.decrypt.DataSerializer;
+
 import java.io.*;
 
 public class ObjectDataSerializer implements DataSerializer {

@@ -1,4 +1,4 @@
-package org.common.utils;
+package org.common.utils.decrypt;
 
 import java.io.IOException;
 
