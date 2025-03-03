@@ -26,7 +26,7 @@ public class AuthAdminController {
     @PostMapping("/register")
     public ResponseEntity<Response> register(@Validated @RequestBody SignUpAdminRequestDTO registrationAdminRequestDTO) {
         try {
-            authAdminService.registration(registrationAdminRequestDTO);
+            authAdminService.register(registrationAdminRequestDTO);
             return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, null));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));

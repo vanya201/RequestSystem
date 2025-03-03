@@ -26,9 +26,9 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 public class FriendShipController {
 
     private final FriendShipService friendShipService;
-
     private final FriendRequestService friendRequestService;
     private final UserFriendsService userFriendsService;
+
     private final FriendShipMapper friendShipMapper;
 
     @PostMapping("/request/{receiver}")

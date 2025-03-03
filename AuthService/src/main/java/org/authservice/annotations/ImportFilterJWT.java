@@ -1,5 +1,6 @@
 package org.authservice.annotations;
 
+import org.common.annotations.CommonConfigScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -13,7 +14,10 @@ import java.lang.annotation.Target;
 @Import({
         org.authservice.filters.JwtAuthFilter.class,
         org.authservice.service.UserService.class,
-        org.authservice.service.JwtService.class
+        org.authservice.service.JwtService.class,
+        org.authservice.service.RSAKeyService.class,
+        org.authservice.config.cache.KeyCachingConfig.class
 })
+@CommonConfigScan
 @EnableJpaRepositories(basePackages = "org.authservice.repositories")
 public @interface ImportFilterJWT { }

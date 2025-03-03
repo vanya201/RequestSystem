@@ -25,7 +25,7 @@ public class AuthUserController {
     @PostMapping("/register")
     public ResponseEntity<Response> register(@Validated @RequestBody SignUpUserRequestDTO registrationUserRequestDTO) {
         try {
-            authUserService.registration(registrationUserRequestDTO);
+            authUserService.register(registrationUserRequestDTO);
             return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, null));
         }catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));

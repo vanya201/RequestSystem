@@ -2,15 +2,18 @@ package org.posterservice.notify.impl.friend;
 
 import lombok.RequiredArgsConstructor;
 import org.posterservice.config.rabbit.FriendRabbitMQConfig;
-import org.posterservice.notify.Notify;
+import org.posterservice.notify.Notifiable;
 import org.posterservice.notify.RequestNotify;
 import org.posterservice.notify.annotation.FriendRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
+import org.posterservice.notify.annotation.Notify;
+
 
 @Component
 @RequiredArgsConstructor
-public class FriendNotify extends Notify {
+@Notify
+public class FriendNotify implements Notifiable {
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -41,5 +44,4 @@ public class FriendNotify extends Notify {
                 FriendRabbitMQConfig.ACCEPT_FRIEND_REQUEST_ROUTING_KEY,
                 friendRequest);
     }
-
 }

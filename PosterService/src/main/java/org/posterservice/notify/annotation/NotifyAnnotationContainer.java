@@ -1,35 +1,33 @@
-package org.posterservice.notify;
+package org.posterservice.notify.annotation;
 
 import lombok.Getter;
-import org.posterservice.notify.annotation.FriendRequest;
-import org.posterservice.notify.annotation.ReactionRequest;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
 @Getter
-public class NotifyAnnotationRegister {
+public class NotifyAnnotationContainer
+{
 
     private final Set<Class<? extends Annotation>> annotations;
 
 
-
-    private NotifyAnnotationRegister() {
+    private NotifyAnnotationContainer() {
         annotations = Set.of (
                 FriendRequest.class,
                 ReactionRequest.class
+                //maybe packet scan
         );
     }
 
 
 
     public static class NotifyAnnotationRegisterHolder {
-        public static final NotifyAnnotationRegister INSTANCE = new NotifyAnnotationRegister();
+        public static final NotifyAnnotationContainer INSTANCE = new NotifyAnnotationContainer();
     }
 
 
-
-    public static NotifyAnnotationRegister getInstance() {
+    public static NotifyAnnotationContainer getInstance() {
         return NotifyAnnotationRegisterHolder.INSTANCE;
     }
 

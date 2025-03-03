@@ -1,7 +1,7 @@
-package org.authservice.configs;
+package org.authservice.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.common.annotations.CommonConfigScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -10,9 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
+@CommonConfigScan
 public class AuthServiceConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
