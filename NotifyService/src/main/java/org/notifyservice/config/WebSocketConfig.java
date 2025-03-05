@@ -1,7 +1,6 @@
 package org.notifyservice.config;
 
 import lombok.RequiredArgsConstructor;
-import org.authservice.annotations.ImportFilterJWT;
 import org.notifyservice.interceptor.JwtAuthChannelInterceptor;
 import org.notifyservice.interceptor.JwtAuthHandshakeInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@ImportFilterJWT
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 

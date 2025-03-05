@@ -3,10 +3,8 @@ package org.posterservice.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.common.models.User;
-import org.posterservice.exception.UserNotFound;
+import org.common.model.User;
 import org.posterservice.repositories.UserSearchRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

@@ -3,11 +3,13 @@ package org.authservice.service;
 import lombok.RequiredArgsConstructor;
 import org.authservice.dto.SignInRequestDTO;
 import org.authservice.dto.SignUpUserRequestDTO;
-import org.authservice.user.details.UserDetailsImpl;
 import org.authservice.validation.ValidationService;
-import org.common.models.Role;
-import org.common.models.RoleState;
-import org.common.models.User;
+import org.common.model.Role;
+import org.common.model.RoleState;
+import org.common.model.User;
+import org.common.service.JwtService;
+import org.common.service.UserService;
+import org.common.user.details.UserDetailsImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

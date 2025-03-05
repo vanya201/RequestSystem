@@ -1,28 +1,27 @@
 package org.common.converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import java.security.KeyFactory;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import lombok.RequiredArgsConstructor;
+import org.common.service.CryptoKeyService;
+import org.springframework.stereotype.Component;
 import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
 
+@Component
 @Converter
+@RequiredArgsConstructor
 public class PublicKeyConverter implements AttributeConverter<PublicKey, byte[]> {
+
+    private final CryptoKeyService cryptoKeyService;
 
     @Override
     public byte[] convertToDatabaseColumn(PublicKey publicKey) {
-        return publicKey.getEncoded();
+        return cryptoKeyService.encodePublicKey(publicKey);
     }
 
     @Override
     public PublicKey convertToEntityAttribute(byte[] dbData) {
-        try {
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(dbData);
-            return keyFactory.generatePublic(keySpec);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Failed to convert byte[] to PublicKey", e);
-        }
+        return cryptoKeyService.decodePublicKey(dbData);
     }
 }
 

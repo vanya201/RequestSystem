@@ -1,5 +1,5 @@
 package org.authservice.config.security;
-import org.authservice.filters.JwtAuthFilter;
+import org.common.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,7 +18,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    private final JwtAuthFilter jwtAuthenticationFilter;
+    private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Bean
@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .exceptionHandling((exception)-> exception.authenticationEntryPoint(restAuthenticationEntryPoint))
                 .securityMatcher("/user/validate", "/admin/validate")
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .addFilterBefore( jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore( jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

@@ -1,7 +1,7 @@
 package org.posterservice.config.security;
 
 import lombok.RequiredArgsConstructor;
-import org.authservice.filters.JwtAuthFilter;
+import org.common.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,7 +18,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    private final JwtAuthFilter jwtAuthenticationFilter;
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +27,7 @@ public class SecurityConfiguration {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
                 .authorizeHttpRequests(auth -> auth.anyRequest().hasAuthority("USER"))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

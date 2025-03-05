@@ -1,8 +1,8 @@
 package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
-import org.authservice.user.details.UserDetailsImpl;
-import org.common.models.User;
+import org.common.model.User;
+import org.common.user.details.UserDetailsImpl;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.SendFriendRequestEvent;
@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import static org.common.models.FriendRequestStatus.*;
+import static org.common.model.FriendRequestStatus.*;
 
 @Service
 @RequiredArgsConstructor

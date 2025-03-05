@@ -2,7 +2,7 @@ package org.posterservice.services;
 
 
 import lombok.RequiredArgsConstructor;
-import org.common.models.User;
+import org.common.model.User;
 import org.posterservice.exception.UserNotFound;
 import org.posterservice.repositories.UserSearchRepository;
 import org.springframework.data.domain.Page;

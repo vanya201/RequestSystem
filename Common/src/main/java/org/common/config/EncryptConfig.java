@@ -1,34 +1,42 @@
 package org.common.config;
 
-import org.common.utils.decrypt.ByteEncryptor;
-import org.common.utils.decrypt.ObjectEncryptor;
-import org.common.utils.decrypt.StringEncryptor;
-import org.common.utils.decrypt.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.AesBytesEncryptor;
+import org.springframework.security.crypto.encrypt.BytesEncryptor;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class EncryptConfig {
 
-    byte[] key = new byte[16]; //TODO add key
+    @Value("${encryption.secret-key}")
+    private String SECRET_KEY;
+
+    @Value("${encryption.salt}")
+    private String SALT;
+
+
 
     @Bean
-    public ByteEncryptor encryptor() {
-        return new AESByteEncryptor(key);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public ByteEncryptor byteEncryptUtil() {
-        return new ByteEncryptUtil(encryptor());
-    }
+
 
     @Bean
-    public StringEncryptor base64StringEncryptUtil() {
-        return new Base64StringEncryptUtil(encryptor());
+    public BytesEncryptor byteEncryptor() {
+        return new AesBytesEncryptor(SECRET_KEY, SALT);
     }
 
+
+
     @Bean
-    public ObjectEncryptor objectEncryptUtil() {
-        return new ObjectEncryptUtil(encryptor(), new ObjectDataSerializer());
+    public TextEncryptor textEncryptor() {
+        return Encryptors.text(SECRET_KEY, SALT);
     }
 }

@@ -3,12 +3,13 @@ package org.authservice.service;
 import lombok.RequiredArgsConstructor;
 import org.authservice.dto.SignInRequestDTO;
 import org.authservice.dto.SignUpAdminRequestDTO;
-import org.authservice.user.details.UserDetailsImpl;
 import org.authservice.validation.ValidationService;
-import org.common.models.Role;
-import org.common.models.RoleState;
-import org.common.models.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.common.model.Role;
+import org.common.model.RoleState;
+import org.common.model.User;
+import org.common.service.JwtService;
+import org.common.service.UserService;
+import org.common.user.details.UserDetailsImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -21,8 +22,6 @@ public class AuthAdminService {
     private final UserService userService;
     private final RoleService roleService;
     private final ValidationService validationService;
-    private final PasswordEncoder passwordEncoder;
-
 
 
     public void register(SignUpAdminRequestDTO requestDTO) {
@@ -50,7 +49,7 @@ public class AuthAdminService {
 
         return User.builder()
                 .username(requestDTO.getUsername())
-                .password(passwordEncoder.encode(requestDTO.getPassword()))
+                .password(requestDTO.getPassword())
                 .email(requestDTO.getEmail())
                 .roles(roles)
                 .build();

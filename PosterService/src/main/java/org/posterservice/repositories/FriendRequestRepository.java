@@ -1,8 +1,8 @@
 package org.posterservice.repositories;
 
-import org.common.models.FriendRequest;
-import org.common.models.FriendRequestStatus;
-import org.common.models.User;
+import org.common.model.FriendRequest;
+import org.common.model.FriendRequestStatus;
+import org.common.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

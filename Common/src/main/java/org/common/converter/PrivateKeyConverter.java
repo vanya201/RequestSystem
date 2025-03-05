@@ -1,32 +1,31 @@
 package org.common.converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import java.security.KeyFactory;
+import jakarta.persistence.AttributeConverter;
 import java.security.PrivateKey;
-import org.common.config.EncryptConfig;
-import org.common.utils.decrypt.ByteEncryptor;
-import java.security.spec.PKCS8EncodedKeySpec;
 
+import jakarta.persistence.Converter;
+import lombok.RequiredArgsConstructor;
+import org.common.service.CryptoKeyService;
+import org.springframework.security.crypto.encrypt.BytesEncryptor;
+import org.springframework.stereotype.Component;
+
+@Component
 @Converter
+@RequiredArgsConstructor
 public class PrivateKeyConverter implements AttributeConverter<PrivateKey, byte[]> {
 
-    private final ByteEncryptor encryptUtil = new EncryptConfig().byteEncryptUtil();
+    private final BytesEncryptor byteEncryptor;
+    private final CryptoKeyService cryptoKeyService;
 
     @Override
     public byte[] convertToDatabaseColumn(PrivateKey privateKey) {
-        return encryptUtil.encrypt(privateKey.getEncoded());
+        byte[] encodeBytes = cryptoKeyService.encodePrivateKey(privateKey);
+        return byteEncryptor.encrypt(encodeBytes);
     }
 
     @Override
     public PrivateKey convertToEntityAttribute(byte[] bytes) {
-        try {
-            byte[] decryptedBytes = encryptUtil.decrypt(bytes);
-            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decryptedBytes);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return keyFactory.generatePrivate(spec);
-        } catch (Exception e) {
-            throw new RuntimeException("Error while decoding private key", e);
-        }
+        byte[] decryptedBytes = byteEncryptor.decrypt(bytes);
+        return cryptoKeyService.decodePrivateKey(decryptedBytes);
     }
 }

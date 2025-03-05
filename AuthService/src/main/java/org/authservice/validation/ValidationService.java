@@ -1,9 +1,9 @@
 package org.authservice.validation;
 
 import lombok.RequiredArgsConstructor;
-import org.common.models.Role;
-import org.common.models.RoleState;
-import org.common.models.User;
+import org.common.model.Role;
+import org.common.model.RoleState;
+import org.common.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

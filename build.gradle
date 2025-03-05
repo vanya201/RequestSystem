@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.1' apply false
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'java-library'
 }
 
 allprojects {
@@ -14,6 +15,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
+    apply plugin: 'java-library'
 
     bootRun {
         enabled = false

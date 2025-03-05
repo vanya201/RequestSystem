@@ -1,7 +1,7 @@
 package org.posterservice.config.application;
 
-import org.common.models.FriendRequest;
-import org.common.models.User;
+import org.common.model.FriendRequest;
+import org.common.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.posterservice.dto.http.FriendRequestDTO;

@@ -1,9 +1,9 @@
 package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
-import org.common.models.FriendRequest;
-import org.common.models.FriendRequestStatus;
-import org.common.models.User;
+import org.common.model.FriendRequest;
+import org.common.model.FriendRequestStatus;
+import org.common.model.User;
 import org.posterservice.exception.FriendRequestNotFoundException;
 import org.posterservice.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;

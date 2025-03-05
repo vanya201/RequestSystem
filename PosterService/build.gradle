@@ -12,8 +12,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
-    implementation project(':Common')
-    implementation project(':AuthService')
+    api project(':Common')
 }
 
 defaultTasks 'bootJar'

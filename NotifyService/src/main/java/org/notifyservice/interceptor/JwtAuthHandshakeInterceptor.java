@@ -2,8 +2,8 @@ package org.notifyservice.interceptor;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.authservice.service.JwtService;
-import org.authservice.service.UserService;
+import org.common.service.JwtService;
+import org.common.service.UserService;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
@@ -14,8 +14,8 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
 
-import static org.authservice.filters.JwtAuthFilter.BEARER_PREFIX;
-import static org.authservice.filters.JwtAuthFilter.HEADER_NAME;
+import static org.common.filter.JwtAuthFilter.BEARER_PREFIX;
+import static org.common.filter.JwtAuthFilter.HEADER_NAME;
 
 @Component
 @RequiredArgsConstructor
