@@ -37,7 +37,6 @@ public class ValidationService {
     public void validatePassword(String rawPassword, String encodedPassword) {
         if (!passwordEncoder.matches(rawPassword, encodedPassword))
             throw new IllegalArgumentException("Invalid username or password");
-
     }
 
 
