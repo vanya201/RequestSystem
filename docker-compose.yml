@@ -34,6 +34,8 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
       - JAVA_VERSION=${JAVA_VERSION}
+      - ENCRYPTION_SECRET_KEY=${ENCRYPTION_SECRET_KEY}
+      - ENCRYPTION_SALT=${ENCRYPTION_SALT}
     networks:
       - dbs-network
     depends_on:
@@ -55,6 +57,8 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - AUTH_ADMIN_REGISTRATION_SECRET_KEY=${AUTH_ADMIN_REGISTRATION_SECRET_KEY}
       - JAVA_VERSION=${JAVA_VERSION}
+      - ENCRYPTION_SECRET_KEY=${ENCRYPTION_SECRET_KEY}
+      - ENCRYPTION_SALT=${ENCRYPTION_SALT}
     networks:
       - dbs-network
       - internal-network
@@ -80,6 +84,8 @@ services:
       - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - ENCRYPTION_SECRET_KEY=${ENCRYPTION_SECRET_KEY}
+      - ENCRYPTION_SALT=${ENCRYPTION_SALT}
     networks:
       - dbs-network
       - internal-network
@@ -105,6 +111,8 @@ services:
       - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - ENCRYPTION_SECRET_KEY=${ENCRYPTION_SECRET_KEY}
+      - ENCRYPTION_SALT=${ENCRYPTION_SALT}
     networks:
       - dbs-network
       - internal-network

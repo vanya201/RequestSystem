@@ -1,5 +1,6 @@
 package org.posterservice.notify.beanpostprocessor;
 
+import io.micrometer.common.lang.NonNullApi;
 import org.posterservice.notify.Notifiable;
 import org.posterservice.notify.annotation.Notify;
 import org.posterservice.notify.proxy.NotifyProxy;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
+@NonNullApi
 public class NotifyBeanPostProcessor implements BeanPostProcessor {
 
     @Override

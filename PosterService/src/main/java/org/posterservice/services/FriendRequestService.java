@@ -37,8 +37,8 @@ public class FriendRequestService {
 
 
 
-    public void createFriendRequest(User sender, User receiver) {
-        friendRequestRepository.save(FriendRequest.create(sender, receiver));
+    public FriendRequest createFriendRequest(User sender, User receiver) {
+        return friendRequestRepository.save(FriendRequest.create(sender, receiver));
     }
 
 

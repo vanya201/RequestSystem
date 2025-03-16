@@ -48,8 +48,8 @@ public class FriendShipService {
         }
 
         //sender and receiver is one unique key
-        friendRequestService.createFriendRequest(sender, receiver);
-        eventPublisher.publishEvent(SendFriendRequestEvent.create(sender, receiver));
+        var friendRequest = friendRequestService.createFriendRequest(sender, receiver);
+        eventPublisher.publishEvent(new SendFriendRequestEvent(friendRequest));
     }
 
 
@@ -69,7 +69,7 @@ public class FriendShipService {
         friendRequest.setStatus(ACCEPTED); //optimistic lock
         userFriendService.addFriend(receiver, sender);
 
-        eventPublisher.publishEvent(AcceptFriendRequestEvent.create(sender, receiver));
+        eventPublisher.publishEvent(new AcceptFriendRequestEvent(friendRequest));
     }
 
 
@@ -88,6 +88,6 @@ public class FriendShipService {
 
         friendRequest.setStatus(DECLINED); //optimistic lock
 
-        eventPublisher.publishEvent(DeclineFriendRequestEvent.create(sender, receiver));
+        eventPublisher.publishEvent(new DeclineFriendRequestEvent(friendRequest));
     }
 }

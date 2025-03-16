@@ -22,7 +22,6 @@ public class AuthUserService {
     private final JwtService jwtService;
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
     private final ValidationService validationService;
 
 
@@ -48,7 +47,7 @@ public class AuthUserService {
         Set<Role> roles = Set.of(roleService.getByRolState(RoleState.USER));
         return User.builder()
                 .username(requestDTO.getUsername())
-                .password(passwordEncoder.encode(requestDTO.getPassword()))
+                .password(requestDTO.getPassword())
                 .email(requestDTO.getEmail())
                 .roles(roles)
                 .build();

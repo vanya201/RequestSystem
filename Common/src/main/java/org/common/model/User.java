@@ -46,7 +46,7 @@ public class User {
             )),
             inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(
                     name = "fk_user_roles_role",
-                    foreignKeyDefinition = "FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE"
+                    foreignKeyDefinition = "FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE"
             ))
     )
     @Builder.Default

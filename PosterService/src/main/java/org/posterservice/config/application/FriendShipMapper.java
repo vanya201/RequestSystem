@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.posterservice.dto.http.FriendRequestDTO;
 import org.posterservice.dto.http.UserDTO;
+import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
+import org.posterservice.notify.impl.friend.dto.SendFriendRequestDTO;
 
 import java.util.List;
 
@@ -17,4 +20,16 @@ public interface FriendShipMapper {
     @Mapping(source = "sender.username", target = "senderName")
     FriendRequestDTO toFriendRequestDTO(FriendRequest friendRequest);
     List<FriendRequestDTO> toFriendRequestDTOList(List<FriendRequest> requests);
+
+    @Mapping(source = "sender.username", target = "sender")
+    @Mapping(source = "receiver.username", target = "accepter")
+    AcceptFriendRequestDTO toAcceptFriendRequestDTO(FriendRequest friendRequest);
+
+    @Mapping(source = "sender.username", target = "requester")
+    @Mapping(source = "receiver.username", target = "decliner")
+    DeclineFriendRequestDTO toDeclineFriendRequestDTO(FriendRequest friendRequest);
+
+    @Mapping(source = "sender.username", target = "sender")
+    @Mapping(source = "receiver.username", target = "recipient")
+    SendFriendRequestDTO toSendFriendRequestDTO(FriendRequest friendRequest);
 }
