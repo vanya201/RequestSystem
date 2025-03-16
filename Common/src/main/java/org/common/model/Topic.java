@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(
         indexes = @Index(name = "idx_name", columnList = "name")
 )
+@EqualsAndHashCode(exclude = {"posts"})
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

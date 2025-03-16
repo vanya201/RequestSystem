@@ -17,6 +17,7 @@ import java.util.*;
                 @Index(name = "idx_username", columnList = "username")
         }
 )
+@EqualsAndHashCode(of = {"username", "email"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -12,10 +13,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(exclude = {"repliesComment"}, callSuper = true)
 public class PostComment extends Comment {
     @ManyToOne
     private Post post;
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private Set<ReplyComment> repliesComment;
+    private List<ReplyComment> repliesComment;
 }
