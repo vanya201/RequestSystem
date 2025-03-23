@@ -14,5 +14,19 @@ import java.io.Serializable;
 public class FriendPair implements Serializable {
     String sender;
     String receiver;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FriendPair that = (FriendPair) o;
+        return (sender.equals(that.sender) && receiver.equals(that.receiver)) ||
+                (sender.equals(that.receiver) && receiver.equals(that.sender));
+    }
+
+    @Override
+    public int hashCode() {
+        return sender.hashCode() + receiver.hashCode();
+    }
 }
 

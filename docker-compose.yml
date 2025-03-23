@@ -86,6 +86,8 @@ services:
       - RABBITMQ_PORT=${RABBITMQ_PORT}
       - ENCRYPTION_SECRET_KEY=${ENCRYPTION_SECRET_KEY}
       - ENCRYPTION_SALT=${ENCRYPTION_SALT}
+      - REDIS_HOST=${REDIS_SERVICE_NAME}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     networks:
       - dbs-network
       - internal-network
@@ -133,6 +135,20 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
 
+  redis:
+    image: redis:latest
+    container_name: ${REDIS_SERVICE_NAME}
+    ports:
+      - "6379:6379"
+    networks:
+      - internal-network
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: [ "redis-server", "--bind", "0.0.0.0", "--requirepass", "${REDIS_PASSWORD}" ]
+    volumes:
+      - redis_data:/data
+
+
   db:
     image: postgres:latest
     container_name: ${DB_SERVICE_NAME}
@@ -165,4 +181,6 @@ volumes:
   pg_data:
     driver: local
   rabbitmq-data:
+    driver: local
+  redis_data:
     driver: local
