@@ -16,7 +16,7 @@ import static org.common.model.FriendRequestStatus.*;
 @Service
 @RequiredArgsConstructor
 public class FriendShipService {
-    private final UserFriendsService userFriendService;
+    private final FriendsForUserService friendsForUserService;
     private final FriendRequestService friendRequestService;
     private final SearchUsersService searchUsersService;
 
@@ -28,7 +28,7 @@ public class FriendShipService {
         User receiver = searchUsersService.searchUserByName(receiverName);
         User sender =  searchUsersService.searchUserByName(senderDetails.getUsername());
 
-         if(sender.getFriends().contains(receiver))
+         if(friendsForUserService.existsFriends(sender, receiver))
             throw new AlreadyFriendsException();
 
         if (friendRequestService.existsFriendRequest(receiver, sender))
@@ -67,7 +67,7 @@ public class FriendShipService {
             throw new FriendRequestDeclinedException();
 
         friendRequest.setStatus(ACCEPTED); //optimistic lock
-        userFriendService.addFriend(receiver, sender);
+        friendsForUserService.addFriend(receiver, sender);
 
         eventPublisher.publishEvent(new AcceptFriendRequestEvent(friendRequest));
     }

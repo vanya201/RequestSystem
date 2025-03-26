@@ -9,6 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(
+        name = "friend_request",
+        indexes = {
+                @Index(name = "idx_friend_request_sender_receiver", columnList = "sender_id, receiver_id")
+        }
+)
 public class FriendRequest {
 
     @EmbeddedId
@@ -32,7 +38,8 @@ public class FriendRequest {
 
     static public FriendRequest create(User sender, User receiver) {
         return FriendRequest.builder()
-                .id(new FriendPair(sender.getUsername(),
+                .id(new FriendPair(
+                        sender.getUsername(),
                         receiver.getUsername()))
                 .sender(sender)
                 .receiver(receiver)

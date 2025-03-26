@@ -20,7 +20,7 @@ public class PostComment extends Comment {
     @ManyToOne
     private Post post;
 
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<ReplyComment> repliesComment;
 }

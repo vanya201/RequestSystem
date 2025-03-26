@@ -38,49 +38,19 @@ public class User {
 
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(
-                    name = "fk_user_roles_user",
-                    foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
-            )),
-            inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(
-                    name = "fk_user_roles_role",
-                    foreignKeyDefinition = "FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE"
-            ))
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(
-                    name = "fk_user_friends_user",
-                    foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
-            )),
-            inverseJoinColumns = @JoinColumn(name = "friend_id", foreignKey = @ForeignKey(
-                    name = "fk_user_friends_friend",
-                    foreignKeyDefinition = "FOREIGN KEY (friend_id) REFERENCES users(id) ON DELETE CASCADE"
-            ))
-    )
+    @ManyToMany
     @Builder.Default
+    @JoinTable(
+            name = "friend_ship",
+            joinColumns = @JoinColumn(name = "user1_id"),
+            inverseJoinColumns = @JoinColumn(name = "user2_id")
+    )
     private Set<User> friends = new LinkedHashSet<>();
-
-
-
-    public void setFriend(User user) {
-        getFriends().add(user);
-        user.getFriends().add(this);
-    }
-
-    public boolean removeFriend(User user) {
-        return this.getFriends().remove(user)
-                ||
-                user.getFriends().remove(this);
-    }
 }
 

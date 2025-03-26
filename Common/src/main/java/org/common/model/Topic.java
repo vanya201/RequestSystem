@@ -23,6 +23,6 @@ public class Topic {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "topic")
     private Set<Post> posts;
 }

@@ -1,29 +1,26 @@
 package org.common.seeder;
 
-
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 @Service
 public class DatabaseInitializer {
 
     @Autowired
-    private DataSource dataSource;
+    private EntityManager entityManager;
 
     @PostConstruct
     public void init() {
-        try (Connection connection = dataSource.getConnection(); Statement stmt = connection.createStatement()) {
+        String checkIndexSql = "SELECT COUNT(*) FROM pg_indexes WHERE indexname = 'unique_friendship';";
+        int count = (Integer) entityManager.createNativeQuery(checkIndexSql).getSingleResult();
+
+        if (count == 0) {
             String sql = "CREATE UNIQUE INDEX unique_friendship " +
                     "ON friend_request (LEAST(sender, receiver), GREATEST(sender, receiver));";
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            entityManager.createNativeQuery(sql).executeUpdate();
         }
     }
 }
+

@@ -10,7 +10,7 @@ import org.posterservice.response.Response;
 import org.posterservice.response.ResponseStatus;
 import org.posterservice.services.FriendRequestService;
 import org.posterservice.services.FriendShipService;
-import org.posterservice.services.UserFriendsService;
+import org.posterservice.services.FriendsForUserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +28,7 @@ public class FriendShipController {
 
     private final FriendShipService friendShipService;
     private final FriendRequestService friendRequestService;
-    private final UserFriendsService userFriendsService;
+    private final FriendsForUserService friendsForUserService;
 
     private final FriendShipMapper friendShipMapper;
 
@@ -73,7 +73,7 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
-            List<User> friends = userFriendsService.searchFriendsByUser(user, PageRequest.of(page, siz));
+            List<User> friends = friendsForUserService.searchFriendsByUser(user, PageRequest.of(page, siz));
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toUserDTOList(friends)));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
@@ -99,7 +99,7 @@ public class FriendShipController {
     @DeleteMapping("/delete/{friend}")
     public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal UserDetails user, @PathVariable String friend ) {
         try {
-            userFriendsService.deleteFriend(user, friend);
+            friendsForUserService.deleteFriend(user, friend);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, null));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
