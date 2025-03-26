@@ -13,9 +13,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation project(':Common')
-    implementation project(':AuthService')
-    implementation project(':PosterService')
+    api project(':Common')
+    api project(':FriendShipService')
 }
 
 defaultTasks 'bootJar'
