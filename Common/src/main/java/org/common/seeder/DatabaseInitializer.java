@@ -1,26 +1,21 @@
 package org.common.seeder;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class DatabaseInitializer {
 
-    @Autowired
-    private EntityManager entityManager;
+    private final JdbcTemplate jdbcTemplate;
+
 
     @PostConstruct
     public void init() {
-        String checkIndexSql = "SELECT COUNT(*) FROM pg_indexes WHERE indexname = 'unique_friendship';";
-        int count = (Integer) entityManager.createNativeQuery(checkIndexSql).getSingleResult();
-
-        if (count == 0) {
-            String sql = "CREATE UNIQUE INDEX unique_friendship " +
-                    "ON friend_request (LEAST(sender, receiver), GREATEST(sender, receiver));";
-            entityManager.createNativeQuery(sql).executeUpdate();
-        }
+        String sql = "CREATE UNIQUE INDEX IF NOT EXISTS unique_friendship " +
+                "ON friend_request (LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id));";
+        jdbcTemplate.execute(sql);
     }
 }
-

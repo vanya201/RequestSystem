@@ -1,6 +1,5 @@
 package org.posterservice.config.security;
 
-import lombok.RequiredArgsConstructor;
 import org.common.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

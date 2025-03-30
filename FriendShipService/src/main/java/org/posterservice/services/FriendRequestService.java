@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.common.model.FriendRequest;
 import org.common.model.FriendRequestStatus;
 import org.common.model.User;
+import org.posterservice.config.application.FriendShipMapper;
+import org.posterservice.dto.http.FriendRequestDTO;
 import org.posterservice.exception.FriendRequestNotFoundException;
 import org.posterservice.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class FriendRequestService {
     private final FriendRequestRepository friendRequestRepository;
+    private final FriendShipMapper friendShipMapper;
 
     public FriendRequest getFriendRequest(User sender, User receiver) throws FriendRequestNotFoundException{
         return friendRequestRepository.findBySenderAndReceiver(sender, receiver)
@@ -29,10 +33,11 @@ public class FriendRequestService {
     }
 
 
-
-    public List<FriendRequest> getFriendRequestsForReceiver(User receiver, Pageable pageable) {
-        return friendRequestRepository.findAllByReceiverAndStatus(receiver,
+    //@CacheFriendRequestsForUser(receiver, pageable)
+    public List<FriendRequestDTO> getFriendRequestsForReceiver(User receiver, Pageable pageable) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverAndStatus(receiver,
                 FriendRequestStatus.PENDING, pageable).getContent();
+        return friendShipMapper.toFriendRequestDTOList(friendRequests);
     }
 
 

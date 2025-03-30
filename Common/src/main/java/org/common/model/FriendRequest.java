@@ -17,8 +17,9 @@ import lombok.*;
 )
 public class FriendRequest {
 
-    @EmbeddedId
-    private FriendPair id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     private User sender;
@@ -38,9 +39,6 @@ public class FriendRequest {
 
     static public FriendRequest create(User sender, User receiver) {
         return FriendRequest.builder()
-                .id(new FriendPair(
-                        sender.getUsername(),
-                        receiver.getUsername()))
                 .sender(sender)
                 .receiver(receiver)
                 .build();

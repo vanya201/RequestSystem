@@ -68,7 +68,7 @@ services:
 
   poster_service:
     build:
-      context: ./PosterService
+      context: ./FriendShipService
       dockerfile: Dockerfile
       args:
         JAVA_VERSION: ${JAVA_VERSION}

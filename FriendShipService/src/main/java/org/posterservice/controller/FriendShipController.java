@@ -6,6 +6,7 @@ import org.common.model.FriendRequest;
 import org.common.model.User;
 import org.common.user.details.UserDetailsImpl;
 import org.posterservice.config.application.FriendShipMapper;
+import org.posterservice.dto.http.FriendRequestDTO;
 import org.posterservice.response.Response;
 import org.posterservice.response.ResponseStatus;
 import org.posterservice.services.FriendRequestService;
@@ -87,8 +88,8 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
-            List<FriendRequest> requests = friendRequestService.getFriendRequestsForReceiver(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toFriendRequestDTOList(requests)));
+            List<FriendRequestDTO> requests = friendRequestService.getFriendRequestsForReceiver(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
+            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, requests));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
