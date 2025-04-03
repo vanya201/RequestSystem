@@ -2,6 +2,7 @@ package org.common.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OptimisticLocking;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ import lombok.*;
                 @Index(name = "idx_friend_request_sender_receiver", columnList = "sender_id, receiver_id")
         }
 )
+@OptimisticLocking
 public class FriendRequest {
 
     @Id
