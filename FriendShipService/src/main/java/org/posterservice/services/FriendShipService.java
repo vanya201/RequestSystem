@@ -77,7 +77,7 @@ public class FriendShipService {
     @Transactional
     public void declineFriendRequest(UserDetails receiverDetails, String senderName) {
         User sender = searchUsersService.searchUserByName(senderName);
-        User receiver = ((UserDetailsImpl) receiverDetails).getUser();
+        User receiver =  searchUsersService.searchUserByName(receiverDetails.getUsername());
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 

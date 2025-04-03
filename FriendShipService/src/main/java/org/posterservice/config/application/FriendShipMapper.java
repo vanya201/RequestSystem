@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.posterservice.dto.http.FriendRequestDTO;
 import org.posterservice.dto.http.UserDTO;
-import org.posterservice.model.FriendRequestCache;
 import org.posterservice.notify.impl.friend.dto.AcceptFriendRequestDTO;
 import org.posterservice.notify.impl.friend.dto.DeclineFriendRequestDTO;
 import org.posterservice.notify.impl.friend.dto.SendFriendRequestDTO;
@@ -33,10 +32,4 @@ public interface FriendShipMapper {
     @Mapping(source = "sender.username", target = "sender")
     @Mapping(source = "receiver.username", target = "recipient")
     SendFriendRequestDTO toSendFriendRequestDTO(FriendRequest friendRequest);
-
-
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "sender.username", target = "sender")
-    @Mapping(source = "receiver.username", target = "receiver")
-    FriendRequestCache toFriendRequestCache(FriendRequest friendRequest);
 }
