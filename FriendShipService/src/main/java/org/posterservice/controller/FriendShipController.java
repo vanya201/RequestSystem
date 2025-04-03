@@ -1,8 +1,6 @@
 package org.posterservice.controller;
 
 import lombok.RequiredArgsConstructor;
-
-import org.common.model.FriendRequest;
 import org.common.model.User;
 import org.common.user.details.UserDetailsImpl;
 import org.posterservice.config.application.FriendShipMapper;
@@ -11,7 +9,7 @@ import org.posterservice.response.Response;
 import org.posterservice.response.ResponseStatus;
 import org.posterservice.services.FriendRequestService;
 import org.posterservice.services.FriendShipService;
-import org.posterservice.services.FriendsForUserService;
+import org.posterservice.services.FriendsService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +27,7 @@ public class FriendShipController {
 
     private final FriendShipService friendShipService;
     private final FriendRequestService friendRequestService;
-    private final FriendsForUserService friendsForUserService;
+    private final FriendsService friendsService;
 
     private final FriendShipMapper friendShipMapper;
 
@@ -74,7 +72,7 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
-            List<User> friends = friendsForUserService.searchFriendsByUser(user, PageRequest.of(page, siz));
+            List<User> friends = friendsService.searchFriendsByUser(user, PageRequest.of(page, siz));
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toUserDTOList(friends)));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
@@ -88,7 +86,7 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
-            List<FriendRequestDTO> requests = friendRequestService.getFriendRequestsForReceiver(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
+            List<FriendRequestDTO> requests = friendRequestService.getFriendRequestsByUser(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, requests));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
@@ -100,7 +98,7 @@ public class FriendShipController {
     @DeleteMapping("/delete/{friend}")
     public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal UserDetails user, @PathVariable String friend ) {
         try {
-            friendsForUserService.deleteFriend(user, friend);
+            friendsService.deleteFriend(user, friend);
             return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, null));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));

@@ -2,7 +2,6 @@ package org.posterservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.common.model.User;
-import org.common.user.details.UserDetailsImpl;
 import org.posterservice.event.AcceptFriendRequestEvent;
 import org.posterservice.event.DeclineFriendRequestEvent;
 import org.posterservice.event.SendFriendRequestEvent;
@@ -16,7 +15,7 @@ import static org.common.model.FriendRequestStatus.*;
 @Service
 @RequiredArgsConstructor
 public class FriendShipService {
-    private final FriendsForUserService friendsForUserService;
+    private final FriendsService friendsService;
     private final FriendRequestService friendRequestService;
     private final SearchUsersService searchUsersService;
 
@@ -28,7 +27,7 @@ public class FriendShipService {
         User receiver = searchUsersService.searchUserByName(receiverName);
         User sender =  searchUsersService.searchUserByName(senderDetails.getUsername());
 
-         if(friendsForUserService.existsFriends(sender, receiver))
+         if(friendsService.existsFriends(sender, receiver))
             throw new AlreadyFriendsException();
 
         if (friendRequestService.existsFriendRequest(receiver, sender))
@@ -67,7 +66,7 @@ public class FriendShipService {
             throw new FriendRequestDeclinedException();
 
         friendRequest.setStatus(ACCEPTED); //optimistic lock
-        friendsForUserService.addFriend(receiver, sender);
+        friendsService.addFriend(receiver, sender);
 
         eventPublisher.publishEvent(new AcceptFriendRequestEvent(friendRequest));
     }
@@ -77,7 +76,7 @@ public class FriendShipService {
     @Transactional
     public void declineFriendRequest(UserDetails receiverDetails, String senderName) {
         User sender = searchUsersService.searchUserByName(senderName);
-        User receiver =  searchUsersService.searchUserByName(receiverDetails.getUsername());
+        User receiver = searchUsersService.searchUserByName(receiverDetails.getUsername());
 
         var friendRequest = friendRequestService.getFriendRequest(sender, receiver);
 

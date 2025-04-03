@@ -34,8 +34,8 @@ public class FriendRequestService {
 
 
     //@CacheFriendRequestsForUser(receiver, pageable)
-    public List<FriendRequestDTO> getFriendRequestsForReceiver(User receiver, Pageable pageable) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverAndStatus(receiver,
+    public List<FriendRequestDTO> getFriendRequestsByUser(User user, Pageable pageable) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverAndStatus(user,
                 FriendRequestStatus.PENDING, pageable).getContent();
         return friendShipMapper.toFriendRequestDTOList(friendRequests);
     }

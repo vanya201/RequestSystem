@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FriendsForUserService {
+public class FriendsService {
     private final UserSearchRepository userSearchRepository;
     private final SearchUsersService searchUsersService;
 
