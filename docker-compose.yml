@@ -66,15 +66,15 @@ services:
       - common_service
 
 
-  poster_service:
+  friendship_service:
     build:
       context: ./FriendShipService
       dockerfile: Dockerfile
       args:
         JAVA_VERSION: ${JAVA_VERSION}
-    container_name: ${POSTER_SERVICE_NAME}
+    container_name: ${FRIENDSHIP_SERVICE_NAME}
     environment:
-      - APP_NAME=${POSTER_SERVICE_NAME}
+      - APP_NAME=${FRIENDSHIP_SERVICE_NAME}
       - DB_HOST=${DB_SERVICE_NAME}
       - DB_NAME=${DB_NAME}
       - DB_MAIN_USER=${DB_MAIN_USER}

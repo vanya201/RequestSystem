@@ -2,6 +2,8 @@ package org.common.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.common.converter.PasswordConverter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.*;
 
