@@ -4,15 +4,14 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../PO/Gradle/gradle-8.10.2" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AuthService" />
             <option value="$PROJECT_DIR$/Common" />
-            <option value="$PROJECT_DIR$/PosterService" />
+            <option value="$PROJECT_DIR$/FriendShipService" />
+            <option value="$PROJECT_DIR$/NotifyService" />
           </set>
         </option>
       </GradleProjectSettings>

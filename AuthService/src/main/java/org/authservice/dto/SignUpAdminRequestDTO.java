@@ -24,5 +24,5 @@ public class SignUpAdminRequestDTO {
     String confirmPassword;
 
     @NotNull(message = "Secret key cannot be null")
-    String secret_key;
+    String secretKey;
 }

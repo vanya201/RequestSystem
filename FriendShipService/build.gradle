@@ -1,0 +1,30 @@
+group = 'org'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.data:spring-data-redis'
+
+    api project(':Common')
+}
+
+defaultTasks 'bootJar'
+
+bootJar {
+    archiveBaseName.set('my-app')
+    archiveVersion.set('1.0.0')
+    destinationDirectory = file("$projectDir/out")
+    mainClass = 'org.friendship.FriendShipServiceApplication'
+}

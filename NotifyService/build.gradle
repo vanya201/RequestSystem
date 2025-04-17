@@ -1,0 +1,27 @@
+group = 'org'
+version = '0.0.1-SNAPSHOT'
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.security:spring-security-messaging'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    api project(':Common')
+    api project(':FriendShipService')
+}
+
+defaultTasks 'bootJar'
+
+bootJar {
+    archiveBaseName.set('my-app')
+    archiveVersion.set('1.0.0')
+    destinationDirectory = file("$projectDir/out")
+    mainClass = 'org.notifyservice.NotifyServiceApplication'
+}
