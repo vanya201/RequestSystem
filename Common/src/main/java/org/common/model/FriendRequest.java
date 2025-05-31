@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OptimisticLocking;
 
+
 @Getter
 @Setter
 @NoArgsConstructor

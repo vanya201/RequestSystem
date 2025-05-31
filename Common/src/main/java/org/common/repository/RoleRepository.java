@@ -1,4 +1,4 @@
-package org.authservice.repositories;
+package org.common.repositories;
 
 import org.common.model.Role;
 import org.common.model.RoleState;

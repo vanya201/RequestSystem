@@ -5,7 +5,7 @@ import jakarta.persistence.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
+import org.springframework.security.web.authentication.AuthenticationFilter;
 @Component
 @Converter
 @RequiredArgsConstructor
