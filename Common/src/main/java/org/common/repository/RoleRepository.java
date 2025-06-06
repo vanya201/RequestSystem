@@ -1,4 +1,4 @@
-package org.common.repositories;
+package org.common.repository;
 
 import org.common.model.Role;
 import org.common.model.RoleState;

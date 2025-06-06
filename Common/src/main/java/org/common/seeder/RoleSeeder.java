@@ -4,7 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.common.model.Role;
 import org.common.model.RoleState;
-import org.common.repositories.RoleRepository;
+import org.common.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service

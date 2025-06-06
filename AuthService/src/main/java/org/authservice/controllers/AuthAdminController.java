@@ -33,7 +33,7 @@ public class AuthAdminController {
         }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Response> login(@Validated @RequestBody SignInRequestDTO loginRequestDTO) {
         try {
             String token = authAdminService.login(loginRequestDTO);

@@ -59,4 +59,12 @@ public class FriendRequest {
         return status == FriendRequestStatus.DECLINED;
     }
 
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        if (sender.equals(receiver)) {
+            throw new IllegalArgumentException("Sender and receiver must be different");
+        }
+    }
+
 }

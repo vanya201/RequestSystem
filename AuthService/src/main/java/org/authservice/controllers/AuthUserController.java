@@ -32,7 +32,7 @@ public class AuthUserController {
         }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Response> login(@Validated @RequestBody SignInRequestDTO loginRequestDTO) {
         try {
             String token = authUserService.login(loginRequestDTO);

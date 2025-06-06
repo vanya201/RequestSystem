@@ -35,7 +35,7 @@ public class FriendShipController {
     public ResponseEntity<Response> request(@AuthenticationPrincipal UserDetails sender, @PathVariable String receiver) {
          try {
             friendShipService.sendFriendRequest(sender, receiver);
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, receiver));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, receiver));
         }catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
@@ -47,7 +47,7 @@ public class FriendShipController {
     public ResponseEntity<Response> accept(@AuthenticationPrincipal UserDetails accepter, @PathVariable String sender) {
         try {
             friendShipService.acceptFriendRequest(accepter, sender);
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, sender));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, sender));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
@@ -59,7 +59,7 @@ public class FriendShipController {
     public ResponseEntity<Response> decline(@AuthenticationPrincipal UserDetails decliner, @PathVariable String sender) {
         try {
             friendShipService.declineFriendRequest(decliner, sender);
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, sender));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, sender));
         }catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
@@ -73,7 +73,7 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
             List<User> friends = friendsService.searchFriendsByUser(user, PageRequest.of(page, siz));
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, friendShipMapper.toUserDTOList(friends)));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, friendShipMapper.toUserDTOList(friends)));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
@@ -87,7 +87,7 @@ public class FriendShipController {
                                             @RequestParam(defaultValue = "10") int siz) {
         try {
             List<FriendRequestDTO> requests = friendRequestService.getFriendRequestsByUser(((UserDetailsImpl) user).getUser(), PageRequest.of(page, siz));
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, requests));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, requests));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
@@ -99,7 +99,7 @@ public class FriendShipController {
     public ResponseEntity<Response> friendDelete(@AuthenticationPrincipal UserDetails user, @PathVariable String friend ) {
         try {
             friendsService.deleteFriend(user, friend);
-            return ResponseEntity.ok(new Response(ResponseStatus.VALIDATE, null));
+            return ResponseEntity.ok(new Response(ResponseStatus.SUCCESS, null));
         } catch (Exception e) {
             return ResponseEntity.status(CONFLICT).body(new Response(ResponseStatus.FAILURE, e.getMessage()));
         }
