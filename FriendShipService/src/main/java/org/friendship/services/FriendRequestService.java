@@ -11,6 +11,7 @@ import org.friendship.repositories.FriendRequestRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class FriendRequestService {
 
 
 
+    @Transactional
     @Scheduled(fixedRate = 60 * 60 * 1000)
     public void cleanUpFriendRequests() {
         friendRequestRepository.deleteByStatus(FriendRequestStatus.ACCEPTED);
