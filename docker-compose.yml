@@ -118,6 +118,8 @@ services:
     networks:
       - dbs-network
       - internal-network
+    ports:
+      - "8080:8080"
     depends_on:
       - common_service
 

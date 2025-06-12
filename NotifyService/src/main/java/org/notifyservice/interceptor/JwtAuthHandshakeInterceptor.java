@@ -2,6 +2,7 @@ package org.notifyservice.interceptor;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.common.service.JwtService;
 import org.common.service.UserService;
 import org.springframework.http.server.ServerHttpRequest;
@@ -19,6 +20,7 @@ import static org.common.filter.JwtAuthFilter.HEADER_NAME;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j // ← добавляем аннотацию для логирования
 public class JwtAuthHandshakeInterceptor implements HandshakeInterceptor {
 
     final private JwtService jwtService;
@@ -28,14 +30,15 @@ public class JwtAuthHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
                                    @NonNull WebSocketHandler wsHandler, @NonNull Map<String, Object> attributes) throws Exception {
 
-        var authHeader = request.getHeaders().getFirst(HEADER_NAME);
+        String query = request.getURI().getQuery(); // example: token=ey...
+        String jwt = null;
+        if (query != null && query.startsWith("token=")) {
+            jwt = query.substring("token=".length());
+            log.info("JWT из query параметра: {}", jwt);
+        }
 
-        if (StringUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer "))
-            return false;
 
-        var jwt = authHeader.substring(BEARER_PREFIX.length());
-
-        if(jwtService.isTokenValid(jwt))
+        if (StringUtils.isEmpty(jwt) || !jwtService.isTokenValid(jwt))
             return false;
 
         var username = jwtService.extractUserName(jwt);
@@ -49,7 +52,7 @@ public class JwtAuthHandshakeInterceptor implements HandshakeInterceptor {
 
         attributes.put("authToken", authToken);
         attributes.put("jwt", jwt);
-
+        log.info("AuthSession created for user: {}", username);
         return true;
     }
 
