@@ -73,6 +73,7 @@ All endpoints are prefixed with `/friendship` in the `FriendShipService`.
 ./gradlew build
 
 docker-compose up --build
+```
 
 ## 🖼️ Result Preview
 
