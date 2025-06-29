@@ -47,6 +47,7 @@
 - **PostgreSQL** — persistent storage
 - **RabbitMQ** — asynchronous messaging
 - **Redis** — in-memory cache
+-  **WebSockets, STOMP** - notifications
 - **Docker / Docker Compose** — containerization and service orchestration
 
 ---
