@@ -1,3 +1,4 @@
 [submodule "PosterFront"]
 	path = PosterFront
-	url = https://github.com/vanya201/PosterFront
+	url = https://github.com/vanya201/RequestSystemFront.git
+	branch = master
