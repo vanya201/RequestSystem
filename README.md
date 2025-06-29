@@ -74,4 +74,6 @@ All endpoints are prefixed with `/friendship` in the `FriendShipService`.
 
 docker-compose up --build
 
+## 🖼️ Result Preview
 
+![Result Screenshot](result.png)
